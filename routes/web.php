@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,5 +40,10 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('editBrand', 'BrandController@editBrand');
     Route::POST('deleteBrand', 'BrandController@deleteBrand');
 
+    Route::resource('customers', 'CustomersController');
+    Route::POST('addCustomer', 'CustomersController@addCustomer');
+    Route::GET('showCustomer', 'CustomersController@showCustomer');
+    Route::POST('editCustomer', 'CustomersController@editCustomer');
+    Route::POST('deleteCustomer', 'CustomersController@deleteCustomer');
 });
 
