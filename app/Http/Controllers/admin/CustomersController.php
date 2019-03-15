@@ -20,7 +20,24 @@ class CustomersController extends Controller
         return view('customers.index',compact('customers'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addCustomer(Request $request){
+//        $this->validate($request,[
+//            'firstname'=>'required',
+//            'lastname'=>'required',
+//            'email'=>'required|unique',
+//            'address'=>'required',
+//            'password'=>'required'
+//        ],[],[
+//            'firstname'=>'First name',
+//            'lastname'=>'Last name',
+//            'email'=>'Email',
+//            'address'=>'Address',
+//            'password'=>'Password'
+//        ]);
         $firstname=$request['firstname'];
         $lastname=$request['lastname'];
         $email=$request['email'];

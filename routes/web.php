@@ -45,5 +45,13 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('showCustomer', 'CustomersController@showCustomer');
     Route::POST('editCustomer', 'CustomersController@editCustomer');
     Route::POST('deleteCustomer', 'CustomersController@deleteCustomer');
+
+    Route::resource('countries', 'CountryController');
+    Route::GET('loadCountries', 'CountryController@loadCountries');
+    Route::GET('selectCountry', 'CountryController@selectCountry');
+    Route::POST('addCountry', 'CountryController@addCountry');
+    Route::POST('editCountry', 'CountryController@editCountry');
+    Route::POST('deleteCountry', 'CountryController@deleteCountry');
+
 });
 

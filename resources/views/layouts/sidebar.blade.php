@@ -36,6 +36,7 @@
             <li><a href="{{ url('admin\category') }}"><i class="fa fa-link"></i> <span>Categories</span></a></li>
             <li><a href="{{ url('admin\brand') }}"><i class="fa fa-link"></i> <span>Brands</span></a></li>
             <li><a href="{{ url('admin\customers') }}"><i class="fa fa-link"></i> <span>Customers</span></a></li>
+            <li><a href="{{ url('admin\countries') }}"><i class="fa fa-link"></i> <span>Countries</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>

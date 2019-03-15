@@ -11,14 +11,14 @@
                         <label class="control-label col-sm-2" for="firstname">First name:</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="firstname" name="firstname" required>
-                            <p class="error text-center alert alert-danger hidden"></p>
+                            <p class="error text-center alert  hidden"></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="lastname">Last name:</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="lastname" name="lastname" required>
-                            <p class="error text-center alert alert-danger hidden"></p>
+                            <p class="error text-center danger hidden"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -50,6 +50,12 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="password" name="password" required>
                             <p class="error text-center alert alert-danger hidden"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="img">Picture:</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="btn-info" id="img" required>
                         </div>
                     </div>
                 </form>

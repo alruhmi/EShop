@@ -9,6 +9,7 @@ $('#add').click(function () {
     $.ajax({
         type: 'POST',
         url: 'addCustomer',
+        dataType:'json',
         data: {
             '_token': $('input[name=_token]').val(),
             'firstname': $('input[name=firstname]').val(),
@@ -33,13 +34,23 @@ $('#add').click(function () {
                 "<button class='edit-modal btn btn-warning btn-sm' customer-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
                 "<button class='delete-modal btn btn-danger btn-sm' customer-id='" + data.id + "' customer-name='" + data.firstname + data.lastname+ "'><span class='glyphicon glyphicon-trash'></span></button>" +
                 "</td></tr>");
+
+            $('#firstname').val('');
+            $('#lastname').val('');
+            $('#email').val('');
+            $('#address').val('');
+            $('#password').val('');
+        },error:function (error) {
+            // console.log(eval(error.responseJSON.errors));
+            // var er=error.responseJSON.errors;
+            // $('.error-fname').removeClass("hidden");
+            // $('.firstname').addClass("has-error");
+            // $('.error-fname').text(error.responseJSON.errors.firstname);
+            // $('.error-fname').text(er.firstname);
+
+
         }
     });
-    $('#firstname').val('');
-    $('#lastname').val('');
-    $('#email').val('');
-    $('#address').val('');
-    $('#password').val('');
 });
 
 $(document).on('click', '.show-modal', function () {
@@ -52,6 +63,7 @@ $(document).on('click', '.show-modal', function () {
             'id': $(this).attr('customer-id')
         },
         success: function (data) {
+            console.log(data);
             var gender="";
             if (data.gender=="1"){gender="Male";}else { gender="Female";}
 
