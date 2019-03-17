@@ -2,28 +2,24 @@ $('.create-modal').on('click', function () {
     $('#create').modal('show');
     $('.form-horizontal').show();
     $('.modal-title').text('Add product');
-    // $('#brand select').change(function () {
-    //    console.log( $('#brand select option:selected').attr('brand-id'));
 });
 
-$('#add').click(function () {
-    console.log($('#brand').val());
-    console.log($('#category').val());
+$('#add').submit(function (event){
+    event.preventDefault();
+    // console.log($('#brand').val());
+    // console.log($('#category').val());
+    var formData = new FormData(this);
+    // var img=$('#select-img')[0].files[0].name;
+    // console.log(formData);
     $.ajax({
         type: 'POST',
         url: 'addProduct',
-        data: {
-            '_token': $('input[name=_token]').val(),
-            'name': $('input[name=name]').val(),
-            'title': $('input[name=title]').val(),
-            'price': $('input[name=price]').val(),
-            'details': $('input[name=details]').val(),
-            'description': $('textarea[name=description]').val(),
-            'brand': $('#brand').val(),
-            'category': $('#category').val()
-        },
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
         success: function (data) {
-
+            console.log(data);
             $('#table').append("<tr role='row' class='odd product" + data.product.id + "'>" +
                 "<td class='sorting_1'>" + data.product.name + "</td>" +
                 "<td class='hidden-xs'>" + data.product.title + "</td>" +

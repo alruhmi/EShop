@@ -6,7 +6,18 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                {{--<form method="post" enctype="multipart/form-data" class="form-horizontal" id="upload-img">--}}
+                    {{--{{ csrf_field() }}--}}
+                    {{--<div class="container">--}}
+                        {{--<label class="control-label col-sm-1">Images:</label>--}}
+                        {{--<div class="file-field input-field col-sm-10" >--}}
+                            {{--<input type="file" name="image" id="select-img" class="col-sm-4">--}}
+                            {{--<input type="submit" value="Upload" class="btn btn-success" id="upload">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</form>--}}
+                <form method="post" enctype="multipart/form-data" class="form-horizontal" id="add" role="form">
+                    {{ csrf_field() }}
                     <div class="form-group row add">
                         <label class="control-label col-sm-2" for="name">Product name:</label>
                         <div class="col-sm-10">
@@ -50,7 +61,7 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="brand" id="brand">
                                 @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                    <option value="{{$brand->id}}">{{$brand->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,20 +71,26 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="category" id="category">
                                 @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="title">Images:</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="image" id="select-img" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input class="btn btn-success" type="submit" value="Save">
+
+                        <button class="btn btn-warning" type="button" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove"></span>Close
+                        </button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-warning" type="submit" id="add">
-                    <span class="glyphicon glyphicon-plus"></span>save product
-                </button>
-                <button class="btn btn-warning" type="button" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-remobe"></span>Close
-                </button>
             </div>
         </div>
     </div>
@@ -97,15 +114,15 @@
                 </div>
                 <div class="form-group">
                     <label for="">Title:</label>
-                   <span style="color: #d73925"> <b id="product_title"/></span>
+                    <span style="color: #d73925"> <b id="product_title"/></span>
                 </div>
                 <div class="form-group">
                     <label for="">Price:</label>
-                   <span style="color: #d73925"> <b id="product_price"/></span>
+                    <span style="color: #d73925"> <b id="product_price"/></span>
                 </div>
                 <div class="form-group">
                     <label for="">Details:</label>
-                   <span style="color: #d73925"> <b id="product_details"/></span>
+                    <span style="color: #d73925"> <b id="product_details"/></span>
                 </div>
                 <div class="form-group">
                     <label for="">Description:</label>
@@ -134,37 +151,37 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="modal">
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="id">ID</label>
+                        <label class="control-label col-sm-2" for="id">ID</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Pid" disabled>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="Pname">Product name</label>
+                        <label class="control-label col-sm-2" for="Pname">Product name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Pname">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="Ptitle">Title</label>
+                        <label class="control-label col-sm-2" for="Ptitle">Title</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Ptitle">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="Pprice">Price</label>
+                        <label class="control-label col-sm-2" for="Pprice">Price</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Pprice">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="Pdetails">Details</label>
+                        <label class="control-label col-sm-2" for="Pdetails">Details</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Pdetails">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2"for="country">Description</label>
+                        <label class="control-label col-sm-2" for="country">Description</label>
                         <div class="col-sm-10">
                             <textarea type="text" class="form-control" id="Pdescr"></textarea>
                         </div>
@@ -174,7 +191,7 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="brand" id="Pbrand">
                                 @foreach($brands as $brand)
-                                <option brand_id="{{$brand->id}}" value="{{$brand->id}}">{{$brand->name}}</option>
+                                    <option brand_id="{{$brand->id}}" value="{{$brand->id}}">{{$brand->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -184,7 +201,8 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="category" id="Pcategory">
                                 @foreach($categories as $category)
-                                <option category_id="{{$category->id}}" value="{{$category->id}}">{{$category->name}}</option>
+                                    <option category_id="{{$category->id}}"
+                                            value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -11,10 +11,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',function (){
+    return redirect()->route('admin');
+});
 
 Route::get('/admin/', function () {
     return view('dashboard');
-})->middleware('auth');
+})->middleware('auth')->name('admin');
 
 Auth::routes();
 Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
@@ -25,6 +28,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('showProduct', 'ProductController@showProduct');
     Route::POST('editProduct', 'ProductController@editProduct');
     Route::POST('deleteProduct', 'ProductController@deleteProduct');
+    Route::POST('uploadImg', 'ProductController@uploadImg');
 
     Route::resource('category', 'CategoryController');
     Route::GET('loadCategory', 'CategoryController@loadCategory');
@@ -40,7 +44,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('editBrand', 'BrandController@editBrand');
     Route::POST('deleteBrand', 'BrandController@deleteBrand');
 
-    Route::resource('customers', 'CustomersController');
+    Route::resource('products', 'CustomersController');
     Route::POST('addCustomer', 'CustomersController@addCustomer');
     Route::GET('showCustomer', 'CustomersController@showCustomer');
     Route::POST('editCustomer', 'CustomersController@editCustomer');

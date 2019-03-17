@@ -34,34 +34,47 @@ class ProductController extends Controller
         return view('products.index',['products'=>$products, 'categories'=>$categories, 'brands'=>$brands]);
     }
 
-    public function addProduct(Request $request){
-//        $this->validate($request,[
-//            'name'=>'required',
-//
-//        ]);
+    public function addProduct(Request $request)
+    {
 
-        $name=$request['name'];
-        $title=$request['title'];
-        $price=$request['price'];
-        $details=$request['details'];
-        $description=$request['description'];
-        $brand=$request['brand'];
-        $category=$request['category'];
+        $product = new  Product();
+        $product->name = $_POST['name'];
+        $product->title = $_POST['title'];
+        $product->price = $_POST['price'];
+        $product->details = $_POST['details'];
+        $product->brand_id = $_POST['brand'];
+        $product->category_id = $_POST['category'];
+        $product->description = $_POST['description'];
 
-        $product = new Product();
-        $product->name=$name;
-        $product->title=$title;
-        $product->price=$price;
-        $product->details=$details;
-        $product->description=$description;
-        $product->brand_id=$brand;
-        $product->category_id=$category;
+        $img1 = $request->file('image');
+        if ($img1 != null) {
+            $name_img1 = time() . "_" . $img1->getClientOriginalName();
+            $ext = $img1->getClientOriginalExtension();
+            $size = $img1->getClientSize();
+            $valid_extensions = array("jpeg", "jpg", "png");
+            if (in_array($ext, $valid_extensions)) {
+                $img1->move(public_path() . "/images/products", $name_img1);
+                $product->img=$name_img1;
+            }
+        }
+
+//        if (!empty($_FILES['image']['name']) && !empty($_FILES['image']['type'])) {
+//            $fileName = time() . "_" . $_FILES['image']['name'];
+//            $valid_extensions = array("jpeg", "jpg", "png");
+//            $ext = $request->file('image')->getClientOriginalExtension();
+//            if (in_array($ext, $valid_extensions)) {
+//                $sourcePath = $_FILES['image']['tmp_name'];
+//                $targetPath = public_path() . "/images/products/" . $fileName;
+//                if (move_uploaded_file($sourcePath, $targetPath)) {
+//                    $product->img = $fileName;
+//                }
+//            }
+//        }
+
         $product->save();
-
-        $brand=Brand::find($brand);
-        $category=category::find($category);
-        return response()->json(['product'=>$product,'brand'=>$brand, 'category'=>$category]);
-
+        $brand = Brand::find($_POST['brand']);
+        $category = category::find($_POST['category']);
+        return response()->json(['product' => $product, 'brand' => $brand, 'category' => $category]);
     }
 
     public function showProduct(Request $request){
@@ -100,8 +113,16 @@ class ProductController extends Controller
     public function deleteProduct(Request $request)
     {
         $product=Product::find($request['id']);
+        if ($product->img!=null){
+            $file_name=public_path(). "/images/products/".$product->img;
+            if (file_exists($file_name)){
+                unlink($file_name);
+            }
+
+        }
         $product->delete();
         return response()->json();
     }
+
 }
 
