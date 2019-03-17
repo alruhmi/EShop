@@ -33,7 +33,7 @@
                                     <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="HiredDate: activate to sort column ascending">Description</th>
                                     <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Department: activate to sort column ascending">brand name</th>
                                     <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Division: activate to sort column ascending">category name</th>
-                                    <th width="15%" tabindex="0" aria-controls="example2" rowspan="1" colspan="2" aria-label="Action: activate to sort column ascending">Action</th>
+                                    <th width="17%" tabindex="0" aria-controls="example2" rowspan="1" colspan="2" aria-label="Action: activate to sort column ascending">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="table">
@@ -52,6 +52,9 @@
                                             </a>
                                             <a href="#" class="edit-modal btn btn-warning btn-sm" product-id="{{$product->id}}">
                                                 <i class="glyphicon glyphicon-pencil"></i>
+                                            </a>
+                                            <a href="#" class="show-images-modal btn btn-success btn-sm" product-id="{{$product->id}}">
+                                                <i class="glyphicon glyphicon-picture"></i>
                                             </a>
                                             <a href="#" class="delete-modal btn btn-danger btn-sm" product-id="{{$product->id}}" product-name="{{$product->name}}">
                                                 <i class="glyphicon glyphicon-trash"></i>

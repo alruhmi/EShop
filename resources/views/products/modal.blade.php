@@ -6,16 +6,6 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                {{--<form method="post" enctype="multipart/form-data" class="form-horizontal" id="upload-img">--}}
-                    {{--{{ csrf_field() }}--}}
-                    {{--<div class="container">--}}
-                        {{--<label class="control-label col-sm-1">Images:</label>--}}
-                        {{--<div class="file-field input-field col-sm-10" >--}}
-                            {{--<input type="file" name="image" id="select-img" class="col-sm-4">--}}
-                            {{--<input type="submit" value="Upload" class="btn btn-success" id="upload">--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</form>--}}
                 <form method="post" enctype="multipart/form-data" class="form-horizontal" id="add" role="form">
                     {{ csrf_field() }}
                     <div class="form-group row add">
@@ -77,9 +67,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="title">Images:</label>
+                        <label class="control-label col-sm-2" for="images">Images:</label>
                         <div class="col-sm-10">
-                            <input type="file" name="image" id="select-img" class="form-control" required>
+                            <input type="file" name="images[]" id="select-img" class="btn-info" multiple>
                         </div>
                     </div>
 
@@ -217,6 +207,33 @@
             <div class="modal-footer">
                 <button type="button" class="btn actionBtn" data-dismiss="modal">
                     <span id="footer_action_button" class="glyphicon"></span>
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon"></span>Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--Picture management modal--}}
+<div id="show-images" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product images</h4>
+            </div>
+            <div class="modal-body load-product-images">
+                {{--<div class="product-section selected ">--}}
+                    {{--<div class="product-section-image">--}}
+                        {{--<img src="{{ asset('images/products/1552851109_1.jpg') }}" alt="product" class="active">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <span id="footer_action_button" class="glyphicon glyphicon-trash"></span>Delete
                 </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class="glyphicon glyphicon"></span>Close

@@ -1,10 +1,11 @@
+//add product
 $('.create-modal').on('click', function () {
     $('#create').modal('show');
     $('.form-horizontal').show();
     $('.modal-title').text('Add product');
 });
 
-$('#add').submit(function (event){
+$('#add').submit(function (event) {
     event.preventDefault();
     // console.log($('#brand').val());
     // console.log($('#category').val());
@@ -30,6 +31,7 @@ $('#add').submit(function (event){
                 "<td class='hidden-xs'>" + data.category.name + "</td>" +
                 "<td><button class='show-modal btn btn-info btn-sm' product-id='" + data.product.id + "'><span class='fa fa-eye'></span></button> " +
                 "<button class='edit-modal btn btn-warning btn-sm' product-id='" + data.product.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
+                "<button class='show-images-modal btn btn-success btn-sm' product-id='" + data.product.id + "'><span class='glyphicon glyphicon-picture'></span></button>" +
                 "<button class='delete-modal btn btn-danger btn-sm' product-id='" + data.product.id + "' product-name='" + data.product.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
                 "</td></tr>");
         }
@@ -40,7 +42,7 @@ $('#add').submit(function (event){
     $('#description').val('');
     $('#price').val('');
 });
-
+//show product
 $(document).on('click', '.show-modal', function () {
     $('#show').modal('show');
     $('.modal-title').text('Show product');
@@ -63,7 +65,7 @@ $(document).on('click', '.show-modal', function () {
         }
     });
 });
-
+//edit product
 $(document).on('click', '.edit-modal', function () {
     $('#footer_action_button').text(" Update product");
     $('#footer_action_button').addClass('glyphicon-check');
@@ -123,12 +125,13 @@ $(document).on('click', '.edit', function () {
                 "<td class='hidden-xs'>" + data.category.name + "</td>" +
                 "<td><button class='show-modal btn btn-info btn-sm' product-id='" + data.product.id + "'><span class='fa fa-eye'></span></button> " +
                 "<button class='edit-modal btn btn-warning btn-sm' product-id='" + data.product.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-                "<button class='delete-modal btn btn-danger btn-sm' product-id='" + data.product.id + "' product-name='" + data.product.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
+                "<button class='show-images-modal btn btn-success btn-sm' product-id='" + data.product.id + "'><span class='glyphicon glyphicon-picture'></span></button>"+
+            "<button class='delete-modal btn btn-danger btn-sm' product-id='" + data.product.id + "' product-name='" + data.product.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
                 "</td></tr>");
         }
     });
 });
-
+//delete product
 $(document).on('click', '.delete-modal', function () {
     $('#footer_action_button').text("Delete");
     $('#footer_action_button').removeClass('glyphicon-check');
@@ -156,4 +159,29 @@ $('.modal-footer').on('click', '.delete', function () {
             $('.product' + $('.id').text()).remove();
         }
     });
+});
+
+//picture management
+$('.show-images-modal').on('click', function () {
+    $('#show-images').modal('show');
+    var id = $(this).attr('product-id')
+    $.ajax({
+        url: 'loadImages',
+        type: 'get',
+        data: {
+            'id': id
+        },
+        success: function (data) {
+            var images = data;
+            var out = '<div class="product-section ">';
+            for (var id in images) {
+                console.log(images[id]);
+                out += "<div class='product-section-image select'> <img src='../images/products/" + images[id] + "' alt='product'></div>";
+
+            }
+            out += '</div>';
+            $('.load-product-images').html(out);
+        }
+    });
+
 });

@@ -46,16 +46,20 @@ class ProductController extends Controller
         $product->category_id = $_POST['category'];
         $product->description = $_POST['description'];
 
-        $img1 = $request->file('image');
-        if ($img1 != null) {
-            $name_img1 = time() . "_" . $img1->getClientOriginalName();
-            $ext = $img1->getClientOriginalExtension();
-            $size = $img1->getClientSize();
-            $valid_extensions = array("jpeg", "jpg", "png");
-            if (in_array($ext, $valid_extensions)) {
-                $img1->move(public_path() . "/images/products", $name_img1);
-                $product->img=$name_img1;
+        $images = $request->file('images');
+        if ($images != null) {
+            foreach ($images as $image){
+                $name_image = time() . "_" . $image->getClientOriginalName();
+                $ext = $image->getClientOriginalExtension();
+                $size = $image->getClientSize();
+                $valid_extensions = array("jpeg", "jpg", "png");
+                if (in_array($ext, $valid_extensions)) {
+                    $image->move(public_path() . "/images/products", $name_image);
+                    $images_name[]=$name_image;
+                }
             }
+            $product->img= json_encode($images_name);
+
         }
 
 //        if (!empty($_FILES['image']['name']) && !empty($_FILES['image']['type'])) {
@@ -110,15 +114,24 @@ class ProductController extends Controller
         return response()->json(['product'=>$product,'brand'=>$brand, 'category'=>$category]);
     }
 
+    public function loadImages(Request $request){
+        $product=Product::find($request['id']);
+        $images=json_decode($product->img);
+
+        return response()->json($images);
+    }
+
     public function deleteProduct(Request $request)
     {
         $product=Product::find($request['id']);
-        if ($product->img!=null){
-            $file_name=public_path(). "/images/products/".$product->img;
-            if (file_exists($file_name)){
-                unlink($file_name);
+        $images=json_decode($product->img);
+        if ($images!=null){
+            foreach ($images as $image) {
+                $image = public_path() . "/images/products/" . $image;
+                if (file_exists($image)) {
+                    unlink($image);
+                }
             }
-
         }
         $product->delete();
         return response()->json();

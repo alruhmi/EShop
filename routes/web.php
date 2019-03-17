@@ -29,6 +29,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('editProduct', 'ProductController@editProduct');
     Route::POST('deleteProduct', 'ProductController@deleteProduct');
     Route::POST('uploadImg', 'ProductController@uploadImg');
+    Route::GET('loadImages', 'ProductController@loadImages');
 
     Route::resource('category', 'CategoryController');
     Route::GET('loadCategory', 'CategoryController@loadCategory');
@@ -44,7 +45,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('editBrand', 'BrandController@editBrand');
     Route::POST('deleteBrand', 'BrandController@deleteBrand');
 
-    Route::resource('products', 'CustomersController');
+    Route::resource('customers', 'CustomersController');
     Route::POST('addCustomer', 'CustomersController@addCustomer');
     Route::GET('showCustomer', 'CustomersController@showCustomer');
     Route::POST('editCustomer', 'CustomersController@editCustomer');
