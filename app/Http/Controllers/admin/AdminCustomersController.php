@@ -6,7 +6,7 @@ use App\Customer;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-class CustomersController extends Controller
+class AdminCustomersController extends Controller
 {
     public function __construct()
     {

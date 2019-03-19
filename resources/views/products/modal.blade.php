@@ -232,7 +232,21 @@
                 {{--</div>--}}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <form method="post" enctype="multipart/form-data" id="add-new-img">
+                    {{csrf_field()}}
+                    <div class="col-sm-7" style="padding-left: 0">
+                        <input type="file" name="pictures[]" id="select-picture" class="btn-info" multiple>
+                        <input type="hidden" name="id" value="" id="img-id">
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="submit" value="add" class="btn btn-primary" >
+                    </div>
+                </form>
+                {{--token sended when delete selected images--}}
+                <form >
+                    <input type="hidden" name="_token" value="{{csrf_token()}}" id="token">
+                </form>
+                <button type="button" class="btn btn-danger" id="btn-deleteImg">
                     <span id="footer_action_button" class="glyphicon glyphicon-trash"></span>Delete
                 </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">

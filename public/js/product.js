@@ -41,6 +41,7 @@ $('#add').submit(function (event) {
     $('#details').val('');
     $('#description').val('');
     $('#price').val('');
+    $('#select-img').val('');
 });
 //show product
 $(document).on('click', '.show-modal', function () {
@@ -162,9 +163,10 @@ $('.modal-footer').on('click', '.delete', function () {
 });
 
 //picture management
-$('.show-images-modal').on('click', function () {
+$(document).on('click','.show-images-modal', function () {
     $('#show-images').modal('show');
-    var id = $(this).attr('product-id')
+    var id = $(this).attr('product-id');
+    $('#img-id').val(id);
     $.ajax({
         url: 'loadImages',
         type: 'get',
@@ -172,16 +174,84 @@ $('.show-images-modal').on('click', function () {
             'id': id
         },
         success: function (data) {
-            var images = data;
-            var out = '<div class="product-section ">';
-            for (var id in images) {
-                console.log(images[id]);
-                out += "<div class='product-section-image select'> <img src='../images/products/" + images[id] + "' alt='product'></div>";
+             fillImages(data) ;
 
-            }
-            out += '</div>';
-            $('.load-product-images').html(out);
         }
     });
+
+});
+// show images into product show images modal
+function fillImages(data){
+    console.log(data);
+    if (data=="") {
+        var out="<h3>This Product does't have any image</h3>";
+        $('.load-product-images').html(out)
+    }else{
+        var images = data;
+        var out = '<div class="product-section ">';
+        for (var id in images) {
+            console.log(images[id]);
+            out += "<div class='product-section-image select'> <img src='/images/products/" + images[id] + "' alt='product'></div>";
+
+        }
+        out += '</div>';
+        $('.load-product-images').html(out);
+        $('.product-section-image').on('click',function () {
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+        });
+    }
+}
+
+//add new pictures to product images
+$('#add-new-img').submit(function (event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+        type: 'POST',
+        url: 'addNewImg',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            console.log(data);
+            fillImages(data);
+            $('#select-picture').val('');
+        }
+    });
+
+});
+
+$('#btn-deleteImg').on('click', function () {
+    var selected_images = $('.product-section div.selected img');
+    if (selected_images == undefined || selected_images.length == 0) {
+        return;
+    }
+    var images = new Array(selected_images.length);
+    for (var i = 0; i < selected_images.length; i++) {
+        images[i] = selected_images[i].getAttribute('src').replace('/images/products/', '');
+
+    }
+    console.log(images);
+    var result = confirm('Are you sure for delete images' + images.length);
+    if (result) {
+        $.ajax({
+            url: 'deleteSelectedImages',
+            type: 'post',
+            data: {
+                "_token": $('#token').val(),
+                'id': $('#img-id').val(),
+                'images': images
+            },
+            success: function (data) {
+                console.log(data);
+                fillImages(data);
+            }
+        });
+    }
 
 });

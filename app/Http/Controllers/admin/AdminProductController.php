@@ -8,9 +8,11 @@ use App\category;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Null_;
 use function PhpParser\filesInDir;
+use PhpParser\Node\Expr\Array_;
 
-class ProductController extends Controller
+class AdminProductController extends Controller
 {
 
     public function __construct()
@@ -116,7 +118,14 @@ class ProductController extends Controller
 
     public function loadImages(Request $request){
         $product=Product::find($request['id']);
-        $images=json_decode($product->img);
+        $image_file=$product->img;
+//        $images=array();
+        if($image_file!=null && $image_file!=""){
+            $images=json_decode($image_file);
+
+        }else{
+            $images="";
+        }
 
         return response()->json($images);
     }
@@ -137,5 +146,59 @@ class ProductController extends Controller
         return response()->json();
     }
 
+    //add new pictures to product images
+    public function addNewImg(Request $request){
+        $product=Product::find($request['id']);
+        $images_name=array();
+        if ($product->img!=null && $product->img!=""){
+            $images_name=json_decode($product->img);
+        }
+        $pictures = $request->file('pictures');
+        if ($pictures != null) {
+            foreach ($pictures as $image) {
+                $name_image = time() . "_" . $image->getClientOriginalName();
+                $ext = $image->getClientOriginalExtension();
+                $valid_extensions = array("jpeg", "jpg", "png");
+                if (in_array($ext, $valid_extensions)) {
+                    $image->move(public_path() . "/images/products", $name_image);
+                    $images_name[]=$name_image;
+                }
+            }
+//            $compact=array_merge($images_name,$newNames);
+            $product->img = json_encode($images_name);
+            $product->save();
+        }
+        return response()->json(json_decode($product->img));
+    }
+
+    public function deleteSelectedImages(Request $request){
+        $images=$request['images'];
+        $product=Product::find($request['id']);
+        $file_images=json_decode($product->img);
+        for ($i = 0; $i < count($images); $i++) {
+            if (in_array($images[$i], $file_images)) {
+                $image_path = public_path() . "/images/products/" . $images[$i];
+                if (file_exists($image_path)) {
+                    unlink($image_path);
+                }
+                $file_images =array_values( array_diff($file_images, array($images[$i])));
+            }
+
+        }
+        if(!empty($file_images)){
+            $product->img=json_encode($file_images);
+
+        }else{
+            $product->img=null;
+        }
+        $product->save();
+//
+//        foreach ($images as $image ){
+//            $key=array_search($image,$file_images);
+//            unset($file_images[$key]);
+//        }
+
+        return response()->json(json_decode($product->img));
+    }
 }
 

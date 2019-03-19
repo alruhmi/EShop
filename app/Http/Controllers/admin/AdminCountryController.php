@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 use App\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-class CountryController extends Controller
+class AdminCountryController extends Controller
 {
 
     public function index()

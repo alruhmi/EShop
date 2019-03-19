@@ -21,42 +21,44 @@ Route::get('/admin/', function () {
 
 Auth::routes();
 Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'dashboardController@index');
+    Route::get('/dashboard', 'adminDashboardController@index');
 
-    Route::resource('product', 'ProductController');
-    Route::POST('addProduct', 'ProductController@addProduct');
-    Route::GET('showProduct', 'ProductController@showProduct');
-    Route::POST('editProduct', 'ProductController@editProduct');
-    Route::POST('deleteProduct', 'ProductController@deleteProduct');
-    Route::POST('uploadImg', 'ProductController@uploadImg');
-    Route::GET('loadImages', 'ProductController@loadImages');
+    Route::resource('product', 'AdminProductController');
+    Route::POST('addProduct', 'AdminProductController@addProduct');
+    Route::GET('showProduct', 'AdminProductController@showProduct');
+    Route::POST('editProduct', 'AdminProductController@editProduct');
+    Route::POST('deleteProduct', 'AdminProductController@deleteProduct');
+    Route::POST('uploadImg', 'AdminProductController@uploadImg');
+    Route::GET('loadImages', 'AdminProductController@loadImages');
+    Route::POST('addNewImg', 'AdminProductController@addNewImg');
+    Route::POST('deleteSelectedImages', 'AdminProductController@deleteSelectedImages');
 
-    Route::resource('category', 'CategoryController');
-    Route::GET('loadCategory', 'CategoryController@loadCategory');
-    Route::GET('selectCategory', 'CategoryController@selectCategory');
-    Route::POST('addCategory', 'CategoryController@addCategory');
-    Route::POST('editCategory', 'CategoryController@editCategory');
-    Route::POST('deleteCategory', 'CategoryController@deleteCategory');
+    Route::resource('category', 'AdminCategoryController');
+    Route::GET('loadCategory', 'AdminCategoryController@loadCategory');
+    Route::GET('selectCategory', 'AdminCategoryController@selectCategory');
+    Route::POST('addCategory', 'AdminCategoryController@addCategory');
+    Route::POST('editCategory', 'AdminCategoryController@editCategory');
+    Route::POST('deleteCategory', 'AdminCategoryController@deleteCategory');
 
-    Route::resource('brand', 'BrandController');
-    Route::GET('loadBrand', 'BrandController@loadBrand');
-    Route::GET('selectBrand', 'BrandController@selectBrand');
-    Route::POST('addBrand', 'BrandController@addBrand');
-    Route::POST('editBrand', 'BrandController@editBrand');
-    Route::POST('deleteBrand', 'BrandController@deleteBrand');
+    Route::resource('brand', 'AdminBrandController');
+    Route::GET('loadBrand', 'AdminBrandController@loadBrand');
+    Route::GET('selectBrand', 'AdminBrandController@selectBrand');
+    Route::POST('addBrand', 'AdminBrandController@addBrand');
+    Route::POST('editBrand', 'AdminBrandController@editBrand');
+    Route::POST('deleteBrand', 'AdminBrandController@deleteBrand');
 
-    Route::resource('customers', 'CustomersController');
-    Route::POST('addCustomer', 'CustomersController@addCustomer');
-    Route::GET('showCustomer', 'CustomersController@showCustomer');
-    Route::POST('editCustomer', 'CustomersController@editCustomer');
-    Route::POST('deleteCustomer', 'CustomersController@deleteCustomer');
+    Route::resource('customers', 'AdminCustomersController');
+    Route::POST('addCustomer', 'AdminCustomersController@addCustomer');
+    Route::GET('showCustomer', 'AdminCustomersController@showCustomer');
+    Route::POST('editCustomer', 'AdminCustomersController@editCustomer');
+    Route::POST('deleteCustomer', 'AdminCustomersController@deleteCustomer');
 
-    Route::resource('countries', 'CountryController');
-    Route::GET('loadCountries', 'CountryController@loadCountries');
-    Route::GET('selectCountry', 'CountryController@selectCountry');
-    Route::POST('addCountry', 'CountryController@addCountry');
-    Route::POST('editCountry', 'CountryController@editCountry');
-    Route::POST('deleteCountry', 'CountryController@deleteCountry');
+    Route::resource('countries', 'AdminCountryController');
+    Route::GET('loadCountries', 'AdminCountryController@loadCountries');
+    Route::GET('selectCountry', 'AdminCountryController@selectCountry');
+    Route::POST('addCountry', 'AdminCountryController@addCountry');
+    Route::POST('editCountry', 'AdminCountryController@editCountry');
+    Route::POST('deleteCountry', 'AdminCountryController@deleteCountry');
 
 });
 
