@@ -24,12 +24,16 @@ class AdminProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products=DB::table('products')->LeftJoin('brands','products.brand_id','=','brands.id')
+        $objectQuery=DB::table('products')->LeftJoin('brands','products.brand_id','=','brands.id')
             ->LeftJoin('categories','products.category_id','=','categories.id')
-            ->select('products.*','brands.name as brand_name','categories.name as category_name')
-            ->paginate(5);
+            ->select('products.*','brands.name as brand_name','categories.name as category_name');
+        $querySearch=$request['q'];
+        if (isset($querySearch)){
+            $objectQuery->where('products.name','LIKE',"%{$querySearch}%");
+        }
+        $products=$objectQuery->paginate(5);
         $brands=Brand::all();
         $categories=Category::all();
 
@@ -38,10 +42,10 @@ class AdminProductController extends Controller
 
     public function addProduct(Request $request)
     {
-
         $product = new  Product();
         $product->name = $_POST['name'];
         $product->title = $_POST['title'];
+        $product->slug = $_POST['slug'];
         $product->price = $_POST['price'];
         $product->details = $_POST['details'];
         $product->brand_id = $_POST['brand'];
@@ -92,27 +96,19 @@ class AdminProductController extends Controller
     }
 
     public function editProduct(Request $request){
-        $id=$request['id'];
-        $name=$request['name'];
-        $title=$request['title'];
-        $price=$request['price'];
-        $details=$request['details'];
-        $description=$request['description'];
-        $brand=$request['brand'];
-        $category=$request['category'];
-
-        $product=Product::find($id);
-        $product->name=$name;
-        $product->title=$title;
-        $product->price=$price;
-        $product->details=$details;
-        $product->description=$description;
-        $product->brand_id=$brand;
-        $product->category_id=$category;
+        $product=Product::find($request['id']);
+        $product->name=$request['name'];
+        $product->title=$request['title'];
+        $product->slug=$request['slug'];
+        $product->price=$request['price'];
+        $product->details=$request['details'];
+        $product->description=$request['description'];
+        $product->brand_id=$request['brand'];
+        $product->category_id=$request['category'];
         $product->save();
 
-        $brand=Brand::find($brand);
-        $category=category::find($category);
+        $brand=Brand::find($request['brand']);
+        $category=category::find($request['category']);
         return response()->json(['product'=>$product,'brand'=>$brand, 'category'=>$category]);
     }
 

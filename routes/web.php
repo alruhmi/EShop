@@ -21,7 +21,7 @@ Route::get('/admin/', function () {
 
 Auth::routes();
 Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'adminDashboardController@index');
+    Route::get('/dashboard', 'AdminDashboardController@index');
 
     Route::resource('product', 'AdminProductController');
     Route::POST('addProduct', 'AdminProductController@addProduct');

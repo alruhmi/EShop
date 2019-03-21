@@ -25,6 +25,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-2" for="slug">Slug:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="slug" name="slug"
+                                   placeholder="write title her" required>
+                            <p class="error text-center alert alert-danger hidden"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-2" for="price">Price:</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" id="price" name="price" required>
@@ -107,6 +115,10 @@
                     <span style="color: #d73925"> <b id="product_title"/></span>
                 </div>
                 <div class="form-group">
+                    <label for="">Slug:</label>
+                    <span style="color: #d73925"> <b id="product_slug"/></span>
+                </div>
+                <div class="form-group">
                     <label for="">Price:</label>
                     <span style="color: #d73925"> <b id="product_price"/></span>
                 </div>
@@ -156,6 +168,12 @@
                         <label class="control-label col-sm-2" for="Ptitle">Title</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="Ptitle">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="Pslug">Slug</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Pslug">
                         </div>
                     </div>
                     <div class="form-group">

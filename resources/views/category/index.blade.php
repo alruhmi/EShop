@@ -18,52 +18,67 @@
 
                 </div>
                 <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="ListCateg">Categories list:</label>
-                        <div class="col-md-6" id="ListCateg">
-                            {{--<select class="form-control" name="ListCateg" id="ListCateg">--}}
+                    <form method="post" enctype="multipart/form-data" class="form-horizontal" id="add-new-category"
+                          role="form">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="ListCateg">Categories list:</label>
+                            <div class="col-md-6" id="ListCateg">
+                                {{--<select class="form-control" name="ListCateg" id="ListCateg">--}}
                                 {{--@foreach($categories as $category)--}}
-                                    {{--<option value="{{$category->id}}">{{$category->name}}</option>--}}
+                                {{--<option value="{{$category->id}}">{{$category->name}}</option>--}}
                                 {{--@endforeach--}}
-                            {{--</select>--}}
+                                {{--</select>--}}
+                            </div>
                         </div>
-                    </div>
-                    <hr/>
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="name">Category name:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="name" name="name" required>
-                            <p class="error text-center alert alert-danger hidden"></p>
+                        <hr/>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="name">Category name:</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <p class="error text-center alert alert-danger hidden"></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="description">Description:</label>
-                        <div class="col-md-6">
-                            <textarea type="text" class="form-control" id="description" name="description" required></textarea>
-                            <p class="error text-center alert alert-danger hidden"></p>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="slug">Slug:</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="slug" name="slug" required>
+                                <p class="error text-center alert alert-danger hidden"></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img">Photo path:</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="img" name="img" required>
-                            <input type="hidden" value="" id="id" >
-                            <input type="hidden" name="_token" >
-                            <p class="error text-center alert alert-danger hidden"></p>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="description">Description:</label>
+                            <div class="col-md-6">
+                                <textarea type="text" class="form-control" id="description" name="description"
+                                          required></textarea>
+                                <p class="error text-center alert alert-danger hidden"></p>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="image">Image:</label>
+                            <div class="col-md-6">
+                                <input type="file" name="image" id="select-img" class="btn-info">
+                                <input type="hidden" value="" name="id" id="id">
+                                <input type="hidden" value="" name="oldImg" id="oldImg">
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <p class="error text-center alert alert-danger hidden"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-md-offset-5 image-section" style="display: none">
+
+                        </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <div class="row">
-                    <p align="center" id="post-info" ></p>
+                    <p align="center" id="post-info"></p>
                     <div class="col-sm-5">
 
                     </div>
                     <div class="col-sm-7">
-                        <button class=" category_btn btn btn-primary">Add new Category</button>
-                        <button style="display: none" class="delete_btn btn btn-danger" >Delete Category</button>
+                        <button type="submit" class="btn btn-primary" id="category_btn">Add new Category</button>
+                        </form>
+                        <button style="display: none" class="delete_btn btn btn-danger">Delete Category</button>
                     </div>
                 </div>
             </div>

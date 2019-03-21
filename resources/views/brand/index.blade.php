@@ -65,6 +65,8 @@
 
                 </div>
                 <div class="form-horizontal">
+                    <form method="post" enctype="multipart/form-data" class="form-horizontal" id="add-edit-brand"
+                          role="form">
                     <div class="form-group">
                         <label class="control-label col-md-4" for="ListBrand">Brands list:</label>
                         <div class="col-md-6" id="ListBrand">
@@ -87,14 +89,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4" for="img">Photo path:</label>
+                        <label class="control-label col-md-4" for="image">Image:</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="img" name="img" required>
-                            <input type="hidden" value="" id="id" >
-                            <input type="hidden" name="_token" >
+                            <input type="file" name="image" id="select-img" class="btn-info">
+                            <input type="hidden" value="" name="id" id="id">
+                            <input type="hidden" value="" name="oldImg" id="oldImg">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <p class="error text-center alert alert-danger hidden"></p>
                         </div>
                     </div>
+                        <div class="col-md-4 col-md-offset-5 image-section" style="display: none"></div>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -105,7 +109,8 @@
 
                     </div>
                     <div class="col-sm-7">
-                        <button class=" brand_btn btn btn-primary">Add new Brand</button>
+                        <button type="submit" class="btn btn-primary" id="brand_btn">Add new Brand</button>
+                        </form>
                         <button style="display: none" class="delete_btn btn btn-danger" >Delete</button>
                     </div>
                 </div>

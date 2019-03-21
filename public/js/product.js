@@ -24,6 +24,7 @@ $('#add').submit(function (event) {
             $('#table').append("<tr role='row' class='odd product" + data.product.id + "'>" +
                 "<td class='sorting_1'>" + data.product.name + "</td>" +
                 "<td class='hidden-xs'>" + data.product.title + "</td>" +
+                "<td class='hidden-xs'>" + data.product.slug + "</td>" +
                 "<td class='hidden-xs'>" + data.product.price + "</td>" +
                 "<td class='hidden-xs'>" + data.product.details + "</td>" +
                 "<td class='hidden-xs'>" + data.product.description + "</td>" +
@@ -38,6 +39,7 @@ $('#add').submit(function (event) {
     });
     $('#name').val('');
     $('#title').val('');
+    $('#slug').val('');
     $('#details').val('');
     $('#description').val('');
     $('#price').val('');
@@ -58,6 +60,7 @@ $(document).on('click', '.show-modal', function () {
             $('#product_id').text(data.product.id);
             $('#product_name').text(data.product.name);
             $('#product_title').text(data.product.title);
+            $('#product_slug').text(data.product.slug);
             $('#product_price').text(data.product.price);
             $('#product_details').text(data.product.details);
             $('#product_descr').text(data.product.description);
@@ -89,6 +92,7 @@ $(document).on('click', '.edit-modal', function () {
             $('#Pid').val(data.product.id);
             $('#Pname').val(data.product.name);
             $('#Ptitle').val(data.product.title);
+            $('#Pslug').val(data.product.slug);
             $('#Pprice').val(data.product.price);
             $('#Pdetails').val(data.product.details);
             $('#Pdescr').val(data.product.description);
@@ -109,6 +113,7 @@ $(document).on('click', '.edit', function () {
             'id': $('#Pid').val(),
             'name': $('#Pname').val(),
             'title': $('#Ptitle').val(),
+            'slug': $('#Pslug').val(),
             'price': $('#Pprice').val(),
             'details': $('#Pdetails').val(),
             'description': $('#Pdescr').val(),
@@ -119,6 +124,7 @@ $(document).on('click', '.edit', function () {
             $('.product' + data.product.id).replaceWith("<tr role='row' class='odd product" + data.product.id + "'>" +
                 "<td class='sorting_1'>" + data.product.name + "</td>" +
                 "<td class='hidden-xs'>" + data.product.title + "</td>" +
+                "<td class='hidden-xs'>" + data.product.slug + "</td>" +
                 "<td class='hidden-xs'>" + data.product.price + "</td>" +
                 "<td class='hidden-xs'>" + data.product.details + "</td>" +
                 "<td class='hidden-xs'>" + data.product.description + "</td>" +

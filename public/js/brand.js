@@ -1,6 +1,5 @@
 $(document).ready(function () {
     loadBrand();
-    $('.brand_btn').on('click', updateBrand);
     $('.delete_btn').on('click', deleteBrand);
     $('.view-btn').on('click', view);
 });
@@ -37,12 +36,14 @@ function loadBrand() {
     });
     $('#name').val('');
     $('#description').val('');
-    $('#img').val('');
+    $('#oldImg').val('');
+    $('#select-img').val('');
     $('#id').val('');
     $('.delete_btn').hide();
-    $('.brand_btn').removeClass('btn-warning');
-    $('.brand_btn').addClass('btn-primary');
-    $('.brand_btn').text('Add new Brand');
+    $('#brand_btn').removeClass('btn-warning');
+    $('#brand_btn').addClass('btn-primary');
+    $('#brand_btn').text('Add new Brand');
+    $('.image-section').hide();
 }
 
 function selectBrand() {
@@ -50,10 +51,11 @@ function selectBrand() {
     var id = $('#ListBrand select option:selected').attr('brand_id');
     // console.log(id);
     if (id > 0) {
-        $('.brand_btn').removeClass('btn-primary');
-        $('.brand_btn').addClass('btn-warning');
-        $('.brand_btn').text('Update brand');
+        $('#brand_btn').removeClass('btn-primary');
+        $('#brand_btn').addClass('btn-warning');
+        $('#brand_btn').text('Update brand');
         $('.delete_btn').show();
+        $('.image-section').show();
         $.ajax({
             type: 'GET',
             url: 'selectBrand',
@@ -64,65 +66,61 @@ function selectBrand() {
                 // console.log(data);
                 $('#name').val(data.name);
                 $('#description').val(data.description);
-                $('#img').val(data.img);
+                $('#oldImg').val(data.img);
                 $('#id').val(data.id);
+                if(data.img!=null){
+                    var out="<img src='/images/brands/"+data.img+"'>";
+                    $('.image-section').html(out);
+                }else{
+                    $('.image-section').hide();
+                }
 
             }
         });
     } else {
         $('#name').val('');
         $('#description').val('');
-        $('#img').val('');
+        $('#oldImg').val('');
+        $('#select-img').val('');
         $('#id').val('');
-        $('.brand_btn').removeClass('btn-warning');
-        $('.brand_btn').addClass('btn-primary');
-        $('.brand_btn').text('Add new Brand');
+        $('#brand_btn').removeClass('btn-warning');
+        $('#brand_btn').addClass('btn-primary');
+        $('#brand_btn').text('Add new Brand');
         $('.delete_btn').hide();
+        $('.image-section').hide();
     }
 
 }
 
 //add and edit brand
-function updateBrand() {
+$('#add-edit-brand').on('submit', function (event) {
+    event.preventDefault();
     var id = $('#id').val();
-    var name = $('#name').val();
-    var description = $('#description').val();
-    var img = $('#img').val();
-
     console.log(id);
     if (id == "") {
 
-        if (name == "" || description == "" || img == "") {
-            $('#post-info').text("please fill the textbox");
-            $('#post-info').css({'color': 'red'});
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: 'addBrand',
-                data: {
-                    '_token': $('input[name=_token]').val(),
-                    'name': name,
-                    'description': description,
-                    'img': img
-                },
-                success: function (data) {
-                    $('#post-info').text(data.name + " " + "brand created successfully");
-                    $('#post-info').css({'color': '#00a65a'});
-                    loadBrand();
-                }
-            });
-        }
+        $.ajax({
+            type: 'POST',
+            url: 'addBrand',
+            catch: false,
+            processData: false,
+            contentType: false,
+            data: new FormData(this),
+            success: function (data) {
+                $('#post-info').text(data.name + " " + "brand created successfully");
+                $('#post-info').css({'color': '#00a65a'});
+                loadBrand();
+            }
+        });
+
     } else {
         $.ajax({
             type: 'POST',
             url: 'editBrand',
-            data: {
-                'id': id,
-                '_token': $('input[name=_token]').val(),
-                'name': name,
-                'description': description,
-                'img': img
-            },
+            catch: false,
+            processData: false,
+            contentType: false,
+            data: new FormData(this),
             success: function (data) {
                 $('#post-info').text("Brand name has change to " + data.name + " successfully");
                 $('#post-info').css({'color': '#00a65a'});
@@ -130,7 +128,7 @@ function updateBrand() {
             }
         });
     }
-}
+});
 
 //delete form brands
 function deleteBrand() {
@@ -143,6 +141,7 @@ function deleteBrand() {
             data: {
                 'id': id,
                 '_token': $('input[name=_token]').val(),
+                'oldImg':$('#oldImg').val()
             },
             success: function (data) {
                 $('#post-info').text("Brand name has delete successfully");

@@ -32,29 +32,48 @@ class AdminCategoryController extends Controller
     }
 
     public function addCategory(Request $request){
-        $name=$request['name'];
-        $description=$request['description'];
-        $img=$request['img'];
 
         $category=new category();
-        $category->name=$name;
-        $category->description=$description;
-        $category->img=$img;
+        $category->name=$request['name'];
+        $category->description=$request['description'];
+        $category->slug=$request['slug'];
+        if($request->hasFile('image')){
+            $image=$request->file('image');
+                $image_name=time()."_".$image->getClientOriginalName();
+                $ext=$image->getClientOriginalExtension();
+                $valid_extensions = array("jpeg", "jpg", "png");
+                if(in_array($ext,$valid_extensions)){
+                    $image->move(public_path()."/images/categories",$image_name);
+                    $category->img=$image_name;
+                }
+        }
         $category->save();
 
         return response()->json($category);
     }
 
     public function editCategory(Request $request){
-        $id=$request['id'];
-        $name=$request['name'];
-        $description=$request['description'];
-        $img=$request['img'];
-
-        $category=category::find($id);
-        $category->name=$name;
-        $category->description=$description;
-        $category->img=$img;
+        $category=category::find($request['id']);
+        $category->name=$request['name'];
+        $category->description=$request['description'];
+        $category->slug=$request['slug'];
+        if($request->hasFile('image')){
+            $oldImg=$request['oldImg'];
+            if($oldImg!=""){
+                $path=public_path()."/images/categories/".$oldImg;
+                if(file_exists($path)){
+                    unlink($path);
+                }
+            }
+            $image=$request->file('image');
+            $image_name=time()."_".$image->getClientOriginalName();
+            $ext=$image->getClientOriginalExtension();
+            $valid_extensions = array("jpeg", "jpg", "png");
+            if(in_array($ext,$valid_extensions)){
+                $image->move(public_path()."/images/categories",$image_name);
+                $category->img=$image_name;
+            }
+        }
         $category->save();
 
         return response()->json($category);
@@ -62,8 +81,14 @@ class AdminCategoryController extends Controller
 
     public function deleteCategory(Request $request){
         $id=$request['id'];
+        $oldImg=$request['oldImg'];
+        $path=public_path()."/images/categories/".$oldImg;
+        if(file_exists($path) && $oldImg!=""){
+            unlink($path);
+        }
         $category=category::find($id);
         $category->delete();
+
 
         return response()->json($category);
     }

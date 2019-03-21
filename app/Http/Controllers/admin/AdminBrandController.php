@@ -30,37 +30,55 @@ class AdminBrandController extends Controller
     }
 
     public function addBrand(Request $request){
-        $name=$request['name'];
-        $description=$request['description'];
-        $img=$request['img'];
-
         $brand=new brand();
-        $brand->name=$name;
-        $brand->description=$description;
-        $brand->img=$img;
+        $brand->name=$request['name'];
+        $brand->description=$request['description'];
+        if($request->hasFile('image')){
+            $image=$request->file('image');
+            $image_name=time()."_".$image->getClientOriginalName();
+            $ext=$image->getClientOriginalExtension();
+            $valid_extension=array("jpg","jpeg","png");
+            if(in_array($ext,$valid_extension)){
+                $image->move(public_path()."/images/brands",$image_name);
+                $brand->img=$image_name;
+            }
+        }
         $brand->save();
 
         return response()->json($brand);
     }
 
     public function editBrand(Request $request){
-        $id=$request['id'];
-        $name=$request['name'];
-        $description=$request['description'];
-        $img=$request['img'];
-
-        $brand=brand::find($id);
-        $brand->name=$name;
-        $brand->description=$description;
-        $brand->img=$img;
+        $brand=brand::find($request['id']);
+        $brand->name=$request['name'];
+        $brand->description=$request['description'];
+        if($request->hasFile('image')){
+            $image=$request->file('image');
+            $image_name=time()."_".$image->getClientOriginalName();
+            $ext=$image->getClientOriginalExtension();
+            $valid_extension=array("jpg","jpeg","png");
+            if(in_array($ext,$valid_extension)){
+                $image->move(public_path()."/images/brands",$image_name);
+                $brand->img=$image_name;
+                $oldImg=$request['oldImg'];
+                $path=public_path()."/images/brands/".$oldImg;
+                if(file_exists($path) && $oldImg!=""){
+                    unlink($path);
+                }
+            }
+        }
         $brand->save();
 
         return response()->json($brand);
     }
 
     public function deleteBrand(Request $request){
-        $id=$request['id'];
-        $brand=brand::find($id);
+        $brand=brand::find($request['id']);
+        $oldImg=$request['oldImg'];
+        $path=public_path()."/images/brands/".$oldImg;
+        if(file_exists($path) && $oldImg!=""){
+            unlink($path);
+        }
         $brand->delete();
 
         return response()->json($brand);
