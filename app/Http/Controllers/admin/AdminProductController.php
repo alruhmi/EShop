@@ -37,7 +37,8 @@ class AdminProductController extends Controller
         $brands=Brand::all();
         $categories=Category::all();
 
-        return view('products.index',['products'=>$products, 'categories'=>$categories, 'brands'=>$brands]);
+        return view('products.index',['products'=>$products, 'categories'=>$categories,
+            'brands'=>$brands,'controller_name'=>'Product Management']);
     }
 
     public function addProduct(Request $request)

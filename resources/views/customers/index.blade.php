@@ -1,9 +1,8 @@
-@extends('customers.base')
+@extends('template.default.base')
 @section('action-content')
     <!-- Main content -->
     <section class="content">
-        <div class="box">
-            <div class="box-header">
+        <div class="box">            <div class="box-header">
                 <div class="row">
                     <div class="col-sm-8">
                         <h3 class="box-title">CRUD Customers Management</h3>
@@ -89,4 +88,10 @@
     </section>
     </div>
 
+@endsection
+
+@section('title') CM| customers Management @endsection
+
+@section('controller-js')
+    <script src="{{ asset("js/customers.js") }}" type="text/javascript"></script>
 @endsection

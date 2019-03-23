@@ -17,7 +17,7 @@ class AdminCustomersController extends Controller
     public function index()
     {
         $customers=Customer::paginate(5);
-        return view('customers.index',compact('customers'));
+        return view('customers.index',['customers'=>$customers,'controller_name'=>'Customers management']);
     }
 
     /**

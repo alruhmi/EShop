@@ -1,4 +1,4 @@
-@extends('countries.base')
+@extends('template.default.base')
 @section('action-content')
     <!-- Main content -->
     <section class="content">
@@ -57,4 +57,10 @@
         </div>
     </section>
     <!-- /.content -->
+@endsection
+
+@section('title') CM| Countries Management @endsection
+
+@section('controller-js')
+    <script src="{{ asset("js/country.js") }}" type="text/javascript"></script>
 @endsection

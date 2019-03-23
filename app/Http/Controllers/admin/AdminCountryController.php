@@ -9,7 +9,7 @@ class AdminCountryController extends Controller
 
     public function index()
     {
-        return view('countries.index');
+        return view('countries.index',['controller_name'=>'Countries Management']);
     }
 
     public function loadCountries(){

@@ -1,4 +1,4 @@
-@extends('category.base')
+@extends('template.default.base')
 @section('action-content')
     <!-- Main content -->
     <section class="content">
@@ -87,4 +87,17 @@
     <!-- /.content -->
 
 
+@endsection
+@section('js')
+
+@endsection
+
+@section('title') CM| Categories Management @endsection
+
+@section('controller-css')
+    <link href="{{ asset('css/categories.css') }}" rel="stylesheet">
+@endsection
+
+@section('controller-js')
+    <script src="{{ asset("js/category.js") }}" type="text/javascript" ></script>
 @endsection

@@ -17,7 +17,7 @@ class AdminCategoryController extends Controller
     public function index()
     {
 
-        return view('category.index');
+        return view('category.index',['controller_name'=>'Categories management']);
     }
 
     public function loadCategory(){

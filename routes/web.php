@@ -15,13 +15,9 @@ Route::get('/',function (){
     return redirect()->route('admin');
 });
 
-Route::get('/admin/', function () {
-    return view('dashboard');
-})->middleware('auth')->name('admin');
-
 Auth::routes();
 Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'AdminDashboardController@index');
+    Route::get('dashboard', 'AdminDashboardController@index')->name('admin');
 
     Route::resource('product', 'AdminProductController');
     Route::POST('addProduct', 'AdminProductController@addProduct');
@@ -59,6 +55,8 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('addCountry', 'AdminCountryController@addCountry');
     Route::POST('editCountry', 'AdminCountryController@editCountry');
     Route::POST('deleteCountry', 'AdminCountryController@deleteCountry');
+
+    Route::resource('news','AdminNewsController');
 
 });
 

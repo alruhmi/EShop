@@ -15,7 +15,7 @@ class AdminBrandController extends Controller
     public function index()
     {
         $brands=brand::paginate(5);
-        return view('brand.index',compact('brands'));
+        return view('brand.index',['brands'=>$brands,'controller_name'=>'Brand management']);
     }
 
     public function loadBrand(){

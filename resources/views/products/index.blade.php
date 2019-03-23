@@ -1,4 +1,4 @@
-@extends('products.base')
+@extends('template.default.base')
 @section('action-content')
     <!-- Main content -->
     <section class="content">
@@ -89,4 +89,13 @@
     </section>
     </div>
 
+@endsection
+@section('title')
+    PM | Product Management
+    @endsection
+@section('controller-css')
+    <link rel="stylesheet" href="{{asset('css/products.css')}}">
+    @endsection
+@section('controller-js')
+    <script src="{{ asset("js/product.js") }}" type="text/javascript" ></script>
 @endsection
