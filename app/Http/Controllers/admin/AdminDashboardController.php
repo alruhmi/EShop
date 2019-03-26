@@ -23,6 +23,6 @@ class adminDashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard',['controller_name'=>'Dashboard']);
+        return view('dashboard');
     }
 }

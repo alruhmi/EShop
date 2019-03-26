@@ -151,3 +151,28 @@ function deleteBrand() {
         });
     }
 }
+// $(function() {
+//     $( "#table" ).sortable();
+//      if ($( "#table tr" ).hasClass('ui-sortable-helper')){
+//          $('#table tr').addClass('fahmi');
+//      }
+// });
+
+// $("tbody").sortable({
+//     stop: function(event, ui) {
+//         $('table tr').each(function() {
+//             console.log($(this).index())
+//             // $('_this #pos').val($(this).index());
+//             $(this).children('td:first-child').html($(this).index())
+//         });
+//     }
+// }).disableSelection();
+$("tbody").sortable({
+    stop: function() {
+        $(this).find('tr').each(function(i) {
+            // $('this #pos').val($(this).index());
+            $(this).find('input#pos').val(i+1);
+        });
+
+    }
+}).disableSelection();

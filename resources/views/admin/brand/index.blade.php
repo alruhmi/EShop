@@ -1,4 +1,4 @@
-@extends('template.default.base')
+@extends('admin.base')
 @section('action-content')
     <!-- Main content -->
     <div class="content">
@@ -43,7 +43,7 @@
                                 <tbody id="table">
                                 @foreach ($brands as $brand)
                                     <tr role="row" class="odd product{{ $brand->id }}">
-                                        <td class="sorting_1">{{ $brand->name }} </td>
+                                        <td class="sorting_1">{{ $brand->name }} <input type="hidden" value="" id="pos"></td>
                                         <td class="hidden-xs">{{ $brand->description }}</td>
                                         <td class="hidden-xs">{{ $brand->img }}</td>
                                         <td>

@@ -14,6 +14,9 @@
 Route::get('/',function (){
     return redirect()->route('admin');
 });
+Route::get('/admin',function (){
+    return redirect()->route('admin');
+});
 
 Auth::routes();
 Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
@@ -57,6 +60,11 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('deleteCountry', 'AdminCountryController@deleteCountry');
 
     Route::resource('news','AdminNewsController');
+    Route::POST('addNews','AdminNewsController@addNews');
+    Route::GET('showNews','AdminNewsController@showNews');
+    Route::POST('editNews','AdminNewsController@editNews');
+    Route::GET('activeNews','AdminNewsController@activeNews');
+    Route::POST('changePosition','AdminNewsController@changePosition');
 
 });
 

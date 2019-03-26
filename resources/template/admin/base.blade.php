@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-@include('template.default.layouts.head')
+@include('admin.layouts.head')
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <!-- Main Header -->
-    @include('template.default.layouts.header')
+    @include('admin.layouts.header')
     <!-- Sidebar -->
-    @include('template.default.layouts.sidebar')
+    @include('admin.layouts.sidebar')
     <!-- /.content-wrapper -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -23,9 +23,9 @@
         <!-- /.content -->
     </div>
     <!-- Footer -->
-    @include('template.default.layouts.footer')
+    @include('admin.layouts.footer')
     <!-- ./wrapper -->
 
-@include('template.default.js')
+@include('admin.js')
     </body>
     </html>

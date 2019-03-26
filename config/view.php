@@ -14,7 +14,9 @@ return [
     */
 
     'paths' => [
-        resource_path('views'),
+        resource_path('views/admin'),
+        resource_path('template'),
+        resource_path('views/frontend')
     ],
 
     /*
