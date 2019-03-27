@@ -37,9 +37,6 @@
                                         colspan="1" aria-label="description">Description
                                     </th>
                                     <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1"
-                                        colspan="1" aria-label="body">Body
-                                    </th>
-                                    <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1"
                                         colspan="1" aria-label="created by">Created by
                                     </th>
                                     <th class="sorting hidden-xs" tabindex="0" aria-controls="example2" rowspan="1"
@@ -62,7 +59,6 @@
                                         <td class="sorting_1"><input type="hidden" id="pos" name="pos" value="{{ $News->position }}" news_id="{{ $News->id }}">{{ $News->position }} </td>
                                         <td class="hidden-xs">{{ $News->title }}</td>
                                         <td class="hidden-xs">{{ $News->description }}</td>
-                                        <td class="hidden-xs">{{ $News->body }}</td>
                                         <td class="hidden-xs">{{ $News->created_by_user }}</td>
                                         <td class="hidden-xs">{{ $News->created_on }}</td>
                                         <td class="hidden-xs">{{ $News->published_on }}</td>

@@ -164,6 +164,7 @@ $('.modal-footer').on('click', '.delete', function () {
         },
         success: function (data) {
             $('.product' + $('.id').text()).remove();
+            alert(data.message);
         }
     });
 });

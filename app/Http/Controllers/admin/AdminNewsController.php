@@ -20,7 +20,7 @@ class AdminNewsController extends Controller
      */
     public function index()
     {
-        $news=DB::table('news')->LeftJoin('users','news.created_by','=','users.id')
+        $news=DB::table('news')->LeftJoin('users','news.created_by','=','users.id')->orderBy('position')
             ->select('news.*','users.name as created_by_user' )->paginate(5);
         return view('news.index',['news'=>$news]);
     }
@@ -81,6 +81,7 @@ class AdminNewsController extends Controller
         $news->created_by=Auth::id();
         $news->created_on=date(now());
         $news->save();
+        $news['created_by']=Auth::user()->name;
         return response()->json($news);
     }
 
@@ -109,6 +110,13 @@ class AdminNewsController extends Controller
         $news=News::find($request['id']);
         $news->position=$request['position'];
         $news->save();
+        $news['created_by']=Auth::user()->name;
         return response()->json($news);
+    }
+
+    public function deleteNews(Request $request){
+        $news=News::find($request['id']);
+        $news->delete();
+        return response()->json(['message'=>'This post deleted successfully']);
     }
 }

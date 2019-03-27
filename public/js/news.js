@@ -1,4 +1,4 @@
-//add news
+//show add news modal
 $('.create-modal').on('click',function () {
    $('#create').modal('show');
     $('.modal-title').text('Add News');
@@ -12,7 +12,7 @@ $('.create-modal').on('click',function () {
     });
 });
 
-
+// send form data to controller and return back new data
 $(document).on('submit','#add-news', function (ev) {
    ev.preventDefault();
    $.ajax({
@@ -24,22 +24,7 @@ $(document).on('submit','#add-news', function (ev) {
        data: new FormData(this),
        success:function (data) {
            console.log(data);
-           if (data.active!=false){var i='checked'}else {i=''}
-           $('#table').append("<tr role='row' class='odd news" + data.id + "'>" +
-               "<td class='sorting_1'>" + data.position + "</td>" +
-               "<td class='hidden-xs'>" + data.title + "</td>" +
-               "<td class='hidden-xs'>" + data.description + "</td>" +
-               "<td class='hidden-xs'>" + data.body + "</td>" +
-               "<td class='hidden-xs'>" + data.created_by + "</td>" +
-               "<td class='hidden-xs'>" + data.created_on+ "</td>" +
-               "<td class='hidden-xs'>" + data.published_on + "</td>" +
-               "<td class='hidden-xs'><input type='checkbox' data-toggle='toggle'  " +
-               "data-onstyle='success' data-offstyle='danger' data-size='small' "+i+" value='"+data.active+"' </td>" +
-               "<td><button class='show-modal btn btn-info btn-sm' news-id='" + data.id + "'><span class='fa fa-eye'></span></button> " +
-               "<button class='edit-modal btn btn-warning btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-               "<button class='show-images-modal btn btn-success btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-picture'></span></button>" +
-               "<button class='delete-modal btn btn-danger btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-trash'></span></button>" +
-               "</td></tr>");
+           $('#table').append(fillData(data));
            $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
        }
    })
@@ -64,8 +49,9 @@ $(document).on('click','.show-modal',function () {
    })
 });
 
-//edit news
+//show data in update form(edit modal)
 $(document).on('click','.edit-modal',function () {
+    $('.modal-title').text('Update News');
     $.ajax({
         url: 'showNews',
         type: 'get',
@@ -83,6 +69,7 @@ $(document).on('click','.edit-modal',function () {
     $('#edit').modal('show');
 });
 
+// send updated data and return new data
 $('#update-form').on('submit',function (ev) {
     ev.preventDefault();
     $.ajax({
@@ -94,24 +81,33 @@ $('#update-form').on('submit',function (ev) {
         data:new FormData(this),
         success:function (data) {
             console.log(data);
-            if (data.active!=false){var i='checked'}else {i=''}
-            $('.news'+data.id).replaceWith("<tr role='row' class='odd news" + data.id + "'>" +
-                "<td class='sorting_1'>" + data.position + "</td>" +
-                "<td class='hidden-xs'>" + data.title + "</td>" +
-                "<td class='hidden-xs'>" + data.description + "</td>" +
-                "<td class='hidden-xs'>" + data.body + "</td>" +
-                "<td class='hidden-xs'>" + data.created_by + "</td>" +
-                "<td class='hidden-xs'>" + data.created_on+ "</td>" +
-                "<td class='hidden-xs'>" + data.published_on + "</td>" +
-                "<td class='hidden-xs'><input type='checkbox' data-toggle='toggle'  " +
-                "data-onstyle='success' data-offstyle='danger' data-size='small' "+i+"  value='"+data.active+"' </td>" +
-                "<td><button class='show-modal btn btn-info btn-sm' news-id='" + data.id + "'><span class='fa fa-eye'></span></button> " +
-                "<button class='edit-modal btn btn-warning btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-                "<button class='show-images-modal btn btn-success btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-picture'></span></button>" +
-                "<button class='delete-modal btn btn-danger btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-trash'></span></button>" +
-                "</td></tr>")
+            $('.news'+data.id).replaceWith(fillData(data))
+            $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
         }
     })
+});
+
+//delete News
+$(document).on('click','.delete-modal',function () {
+    $('.modal-title').text('Delete News');
+    $('#delete').modal('show');
+    $('#delete-id').val($(this).attr('news-id'));
+    console.log($('#delete-id').val());
+});
+
+$('#delete-btn').on('click', function () {
+    var id=$('#delete-id').val();
+    $.ajax({
+        url:'deleteNews',
+        type:'post',
+        data:{
+            'id': id,
+            '_token':$('input[name=_token]').val()
+        },success:function (data) {
+            alert(data.message);
+            $('.news'+id).remove();
+        }
+    });
 });
 
 //active news
@@ -137,7 +133,7 @@ $(document).on('change','#active-news',function () {
     console.log( value);
 });
 
-//change position
+//change position in real time
 $("tbody").sortable({
     stop: function() {
         $(this).find('tr').each(function(i) {
@@ -156,22 +152,7 @@ $("tbody").sortable({
                     '_token':$('input[name=_token]').val()
                 },success:function (data) {
                     console.log(data);
-                    if (data.active!=false){var i='checked'}else {i=''}
-                    $('.news'+data.id).replaceWith("<tr role='row' class='odd news" + data.id + "'>" +
-                        "<td class='sorting_1'><input type='hidden' id='pos' name='pos' value='"+data.position+"' news_id='"+data.id+"'>" + data.position + "</td>" +
-                        "<td class='hidden-xs'>" + data.title + "</td>" +
-                        "<td class='hidden-xs'>" + data.description + "</td>" +
-                        "<td class='hidden-xs'>" + data.body + "</td>" +
-                        "<td class='hidden-xs'>" + data.created_by + "</td>" +
-                        "<td class='hidden-xs'>" + data.created_on+ "</td>" +
-                        "<td class='hidden-xs'>" + data.published_on + "</td>" +
-                        "<td class='hidden-xs'><input type='checkbox' data-toggle='toggle'  " +
-                        "data-onstyle='success' data-offstyle='danger' data-size='small' "+i+"  value='"+data.active+"' </td>" +
-                        "<td><button class='show-modal btn btn-info btn-sm' news-id='" + data.id + "'><span class='fa fa-eye'></span></button> " +
-                        "<button class='edit-modal btn btn-warning btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-                        "<button class='show-images-modal btn btn-success btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-picture'></span></button>" +
-                        "<button class='delete-modal btn btn-danger btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-trash'></span></button>" +
-                        "</td></tr>");
+                    $('.news'+data.id).replaceWith(fillData(data));
                     $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
                 }
             })
@@ -179,3 +160,24 @@ $("tbody").sortable({
 
     }
 }).disableSelection();
+
+// fill data from controller
+function fillData(data) {
+    if (data.active!=false){var i='checked'}else {i=''}
+    var out=  "<tr role='row' class='odd news" + data.id + "'>" +
+        "<td class='sorting_1'><input type='hidden' id='pos' name='pos' value='"+data.position+"' news_id='"+data.id+"'>" + data.position + "</td>" +
+        "<td class='hidden-xs'>" + data.title + "</td>" +
+        "<td class='hidden-xs'>" + data.description + "</td>" +
+        "<td class='hidden-xs'>" + data.created_by + "</td>" +
+        "<td class='hidden-xs'>" + data.created_on+ "</td>" +
+        "<td class='hidden-xs'>" + data.published_on + "</td>" +
+        "<td class='hidden-xs'><input type='checkbox' data-toggle='toggle'  " +
+        "data-onstyle='success' data-offstyle='danger' data-size='small' "+i+"  value='"+data.active+"' </td>" +
+        "<td><button class='show-modal btn btn-info btn-sm' news-id='" + data.id + "'><span class='fa fa-eye'></span></button> " +
+        "<button class='edit-modal btn btn-warning btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
+        "<button class='show-images-modal btn btn-success btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-picture'></span></button> " +
+        "<button class='delete-modal btn btn-danger btn-sm' news-id='" + data.id + "'><span class='glyphicon glyphicon-trash'></span></button>" +
+        "</td></tr>";
+    return out;
+}
+

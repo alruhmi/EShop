@@ -63,8 +63,22 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('addNews','AdminNewsController@addNews');
     Route::GET('showNews','AdminNewsController@showNews');
     Route::POST('editNews','AdminNewsController@editNews');
+    Route::POST('deleteNews','AdminNewsController@deleteNews');
     Route::GET('activeNews','AdminNewsController@activeNews');
     Route::POST('changePosition','AdminNewsController@changePosition');
 
+    Route::resource('state','AdminStateController');
+    Route::GET('loadStates','AdminStateController@loadStates');
+    Route::GET('selectState','AdminStateController@selectState');
+    Route::POST('addState','AdminStateController@addState');
+    Route::POST('updateState','AdminStateController@updateState');
+    Route::POST('deleteState','AdminStateController@deleteState');
+
+    Route::resource('city','AdminCityController');
+    Route::GET('loadCities','AdminCityController@loadCities');
+    Route::GET('selectCity','AdminCityController@selectCity');
+    Route::POST('addCity','AdminCityController@addCity');
+    Route::POST('updateCity','AdminCityController@updateCity');
+    Route::POST('deleteCity','AdminCityController@deleteCity');
 });
 
