@@ -32,7 +32,18 @@
         <ul class="sidebar-menu">
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="{{url('admin\dashboard')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-            <li><a href="{{ url('admin\product') }}"><i class="fa fa-product-hunt"></i> <span>Products</span></a></li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Product Management</span>
+                    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('admin\product') }}"><i class="fa fa-product-hunt"></i> <span>Products</span></a></li>
+                    <li><a href="{{ url('admin\attributes') }}"><i class="fa fa-product-hunt"></i> <span>Attributes</span></a></li>
+                    <li><a href="{{ url('admin\productsattr') }}"><i class="fa fa-product-hunt"></i> <span>Product Attributes</span></a></li>
+                </ul>
+            </li>
             <li><a href="{{ url('admin\category') }}"><i class="fa fa-sitemap"></i><span>Categories</span></a></li>
             <li><a href="{{ url('admin\brand') }}"><i class="fa fa-apple"></i> <span>Brands</span></a></li>
             <li><a href="{{ url('admin\customers') }}"> <i class="far fa-address-card"></i><span>Customers</span></a></li>

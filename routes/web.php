@@ -80,5 +80,11 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('addCity','AdminCityController@addCity');
     Route::POST('updateCity','AdminCityController@updateCity');
     Route::POST('deleteCity','AdminCityController@deleteCity');
+
+    Route::resource('attributes','AdminAttributeController');
+    Route::POST('addAttribute','AdminAttributeController@addAttribute');
+    Route::GET('getAttributes','AdminAttributeController@getAttributes');
+    Route::POST('editAttribute','AdminAttributeController@editAttribute');
+    Route::POST('deleteAttribute','AdminAttributeController@deleteAttribute');
 });
 
