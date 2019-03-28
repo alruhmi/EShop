@@ -32,23 +32,29 @@ $('#add-attr').on('submit',function (ev) {
         success:function (data) {
             // console.log(data);
             if(data.msg!=undefined){alert(data.msg);}
-            var values=JSON.parse(data.value);
-            var out="<tr role='row' class='odd attribute" + data.id + "'><td class='sorting_1'>" + data.name + "</td>" +
-                "<td class='hidden-xs'>|";
-            for( var i=0;i<values.length;i++){
-                out+=" ("+values[i]+") |";
-            }
-            out+="</td>" +
-                "<td><button class='edit-modal btn btn-warning btn-sm' attribute-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-                "<button class='delete-modal btn btn-danger btn-sm' attribute-id='" + data.id + "' attribute-name='" + data.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
-                "</td></tr>";
-            $('#table').append(out );
+            $('#table').append(fillData(data));
             $('#create').modal('hide');
             $('#name').val("");
             $('.input-id').val("");
         }
     })
 });
+
+//fill data in table row
+function fillData(data){
+    var values=JSON.parse(data.value);
+    var out="<tr role='row' class='odd attribute" + data.id + "'><td class='sorting_1'>" + data.name + "</td>" +
+        "<td class='hidden-xs'>|";
+    for( var i=0;i<values.length;i++){
+        out+=" ("+values[i]+") |";
+    }
+    out+="</td>" +
+        "<td><button class='edit-modal btn btn-warning btn-sm' attribute-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
+        "<button class='delete-modal btn btn-danger btn-sm' attribute-id='" + data.id + "' attribute-name='" + data.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
+        "</td></tr>";
+    return out;
+}
+
 
 //edit attribute
 $(document).on('click','.edit-modal',function () {
@@ -84,17 +90,7 @@ $('#edit-attr').on('submit',function (ev) {
         success:function (data) {
             // console.log(data);
             if(data.msg!=undefined){alert(data.msg);}
-            var values=JSON.parse(data.value);
-            var out="<tr role='row' class='odd attribute" + data.id + "'><td class='sorting_1'>" + data.name + "</td>" +
-                "<td class='hidden-xs'>|";
-            for( var i=0;i<values.length;i++){
-                out+=" ("+values[i]+") |";
-            }
-             out+="</td><td><button class='edit-modal btn btn-warning btn-sm' attribute-id='" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></button> " +
-                "<button class='delete-modal btn btn-danger btn-sm' attribute-id='" + data.id + "' attribute-name='" + data.name + "'><span class='glyphicon glyphicon-trash'></span></button>" +
-                "</td></tr>";
-            console.log(out);
-            $('.attribute'+data.id).replaceWith(out);
+            $('.attribute'+data.id).replaceWith(fillData(data));
             $('#edit').modal('hide');
         }
     })

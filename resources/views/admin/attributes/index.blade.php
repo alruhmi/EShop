@@ -8,12 +8,6 @@
                     <div class="col-md-4 col-md-offset-5">
                         <button class="create-modal btn btn-primary"><span class="glyphicon glyphicon-plus"></span>New Attribute</button>
                     </div>
-                    <div class="form-horizontal">
-                        <div class="form-group">
-
-                        </div>
-
-                    </div>
                 </div>
             </div>
             <!-- /.box-header -->
