@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Attribute;
 use App\Http\Controllers\Controller;
 use App\brand;
 use App\category;
@@ -39,6 +40,42 @@ class AdminProductController extends Controller
 
         return view('products.index',['products'=>$products, 'categories'=>$categories,
             'brands'=>$brands,'controller_name'=>'Product Management']);
+    }
+
+    public function create()
+    {
+        $categories=category::all();
+        $brands=brand::all();
+        $attributes=Attribute::all();
+        return view('products.create',['categories'=>$categories,'brands'=>$brands,'attributes'=>$attributes]);
+    }
+
+
+    public function edit($id)
+    {
+        $product=Product::find($id);
+        $brands=brand::all();
+        $brand=brand::find($product->brand_id);
+        $categories=category::all();
+        $category=category::find($product->category_id);
+        return view('products.edit',['product'=>$product,'brands'=>$brands, 'categories'=>$categories,
+            'selected_brand'=>$brand, 'selected_category'=>$category]);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $product=Product::find($id);
+        $product->name=$request['name'];
+        $product->title=$request['title'];
+        $product->slug=$request['slug'];
+        $product->price=$request['price'];
+        $product->details=$request['details'];
+        $product->description=$request['description'];
+        $product->brand_id=$request['brand'];
+        $product->category_id=$request['category'];
+        $product->save();
+
+        return redirect()->intended('admin/product');
     }
 
     public function addProduct(Request $request)
@@ -83,9 +120,10 @@ class AdminProductController extends Controller
 //        }
 
         $product->save();
-        $brand = Brand::find($_POST['brand']);
-        $category = category::find($_POST['category']);
-        return response()->json(['product' => $product, 'brand' => $brand, 'category' => $category]);
+//        $brand = Brand::find($_POST['brand']);
+//        $category = category::find($_POST['category']);
+//        return response()->json(['product' => $product, 'brand' => $brand, 'category' => $category]);
+        return redirect()->route('product.index');
     }
 
     public function showProduct(Request $request){

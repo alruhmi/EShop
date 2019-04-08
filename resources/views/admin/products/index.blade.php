@@ -9,7 +9,7 @@
                         <h3 class="box-title">List of products</h3>
                     </div>
                     <div class="col-sm-4">
-                        <a href="#" class="create-modal btn btn-primary">Add new product</a>
+                        <a href="{{route('product.create')}}" class="btn btn-primary">Add new product</a>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                                             <a href="#" class="show-modal btn btn-info btn-sm" product-id="{{$product->id}}">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="#" class="edit-modal btn btn-warning btn-sm" product-id="{{$product->id}}">
+                                            <a href="{{route('product.edit',['id'=>$product->id])}}" class="btn btn-warning btn-sm" product-id="{{$product->id}}">
                                                 <i class="glyphicon glyphicon-pencil"></i>
                                             </a>
                                             <a href="#" class="show-images-modal btn btn-success btn-sm" product-id="{{$product->id}}">

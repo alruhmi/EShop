@@ -34,7 +34,7 @@
                                     <tr role="row" class="odd attribute{{ $attribute->id }}">
                                         <td class="sorting_1">{{ $attribute->name }} </td>
                                         <td class="hidden-xs">| @foreach(json_decode($attribute->value) as $value)({{$value}})   | @endforeach</td>
-                                        <td>
+                                        <td align="center">
                                             <a href="#" class="edit-modal btn btn-warning btn-sm" attribute-id="{{$attribute->id}}">
                                                 <i class="glyphicon glyphicon-pencil"></i>
                                             </a>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                {{--{{ $attributes->links() }}--}}
+                                {{ $attributes->links() }}
                             </div>
                         </div>
                     </div>

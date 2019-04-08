@@ -23,7 +23,7 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::get('dashboard', 'AdminDashboardController@index')->name('admin');
 
     Route::resource('product', 'AdminProductController');
-    Route::POST('addProduct', 'AdminProductController@addProduct');
+    Route::POST('addProduct', 'AdminProductController@addProduct')->name('addProduct');
     Route::GET('showProduct', 'AdminProductController@showProduct');
     Route::POST('editProduct', 'AdminProductController@editProduct');
     Route::POST('deleteProduct', 'AdminProductController@deleteProduct');

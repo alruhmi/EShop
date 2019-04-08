@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class AdminAttributeController extends Controller
 {
     public function Index(){
-        $attributes=Attribute::all();
+        $attributes=Attribute::paginate(5);
         return view('attributes.index',compact('attributes'));
     }
 
