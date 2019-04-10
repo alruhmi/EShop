@@ -80,6 +80,37 @@
                                     <input type="file" name="images[]" id="select-img" class="btn-info" multiple>
                                 </div>
                             </div>
+                            @foreach($attrs as $attribute)
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">{{$attribute->name}}</label>
+                                    <div class="col-md-9">
+                                        @php( $values=json_decode($attribute->value))
+                                        @foreach($values as $value)
+                                            <label for="{{$value}}" class="btn btn-sm btn-warning">
+                                                <input type="checkbox" name="attributes[{{$attribute->id}}][]" value="{{$value}}"
+                                                @if (!empty($attributes) && isset($attributes[$attribute->id]) && in_array($value,$attributes[$attribute->id]))
+                                                     checked
+                                                @endif >
+                                                <span>{{$value}}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                            {{--@foreach($attrs as $key => $attribute)--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<label class="control-label col-md-2">{{$attribute}}</label>--}}
+                                    {{--<div class="col-md-9">--}}
+                                        {{--@php( $values=$attributes[$key])--}}
+                                        {{--@foreach($values as $value)--}}
+                                            {{--<label for="{{$value}}" class="btn btn-sm btn-warning">--}}
+                                                {{--<input type="checkbox" name="attributes[{{$key}}][]" value="{{$value}}">--}}
+                                                {{--<span>{{$value}}</span>--}}
+                                            {{--</label>--}}
+                                        {{--@endforeach--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--@endforeach--}}
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-6">
                                     <button type="submit" class="btn btn-primary">

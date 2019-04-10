@@ -1,5 +1,8 @@
 <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/_all-skins.min.css")}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset("/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
+<!--multi select-->
+<link href="{{ asset("/css/jquery.multiselect.css") }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset("/css/jquery.multiselect.filter.css") }}" rel="stylesheet" type="text/css" />
 <!--bootstrap-toggle-->
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <!-- Font Awesome -->

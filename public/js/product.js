@@ -1,3 +1,39 @@
+// show attributes
+$(document).ready(function() {
+    $('.multi-select').multiselect();
+});
+$('#selected-btn').on('click',function () {
+    $('.attributes').html("");
+    var selectednumbers=[] ;
+    $('.multi-select :selected').each(function(i, selected) {
+        selectednumbers[i] = $(selected).val();
+    });
+    $.ajax({
+        url:'show',
+        type:'GET',
+        data:{'id':selectednumbers},
+        success:function (data) {
+            console.log(data);
+             for (var key in data){
+                 var out='<div class="form-group">';
+                 out+='<label class="control-label col-md-2">'+data[key].name+'</label>';
+                 out+='<div class="col-md-9">';
+                 var values=JSON.parse(data[key].value);
+                 for (var i in values) {
+                     out+='<label for='+values[i]+' class="btn btn-sm btn-warning">';
+                     out+='<input type="checkbox" name="attributes['+data.id+'][]" value="'+values[i]+'">';
+                     out+='  '+'<span>'+values[i]+'</span></label>'+' ';
+                 }
+                 out+='</div></div>';
+                 $('.attributes').append(out);
+             }
+            selectednumbers=[];
+
+        }
+    })
+    // console.log(selectednumbers);
+});
+
 //add product
 $('.create-modal').on('click', function () {
     $('#create').modal('show');

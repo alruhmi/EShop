@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Attribute;
+use App\ProductAttribute;
 use App\Http\Controllers\Controller;
 use App\brand;
 use App\category;
@@ -57,9 +58,21 @@ class AdminProductController extends Controller
         $brands=brand::all();
         $brand=brand::find($product->brand_id);
         $categories=category::all();
+        $attrs=Attribute::all();
         $category=category::find($product->category_id);
+        $attributes=array();
+        foreach ($product->productAttributes as $productAttribute){
+//            $productAttribute->load('attribute');
+//            var_dump($productAttribute->attribute);
+            if (!isset($attributes[$productAttribute->attribute->id])){
+                $attributes[$productAttribute->attribute->id]=array();
+            }
+            $attributes[$productAttribute->attribute->id][]=$productAttribute->value;
+//            $attrs[$productAttribute->attribute->id]=$productAttribute->attribute->name;
+
+        }
         return view('products.edit',['product'=>$product,'brands'=>$brands, 'categories'=>$categories,
-            'selected_brand'=>$brand, 'selected_category'=>$category]);
+            'selected_brand'=>$brand, 'selected_category'=>$category,'attributes'=>$attributes,'attrs'=>$attrs]);
     }
 
     public function update(Request $request,$id)
@@ -118,12 +131,25 @@ class AdminProductController extends Controller
 //                }
 //            }
 //        }
-
         $product->save();
-//        $brand = Brand::find($_POST['brand']);
-//        $category = category::find($_POST['category']);
-//        return response()->json(['product' => $product, 'brand' => $brand, 'category' => $category]);
+
+        foreach ($request['attributes'] as $key=>$values ){
+            $attribute_id=$key;
+            foreach ($values as $value){
+                $a=new ProductAttribute();
+                $a->attribute_id=$attribute_id;
+                $a->value=$value;
+                $product->productAttributes()->save($a);
+                $a->product()->associate($product)->save();
+            }
+        }
+
         return redirect()->route('product.index');
+    }
+
+    public function showAttributes(Request $request){
+        $attributes=Attribute::find($request['id']);
+        return response()->json($attributes);
     }
 
     public function showProduct(Request $request){
@@ -234,6 +260,11 @@ class AdminProductController extends Controller
 //        }
 
         return response()->json(json_decode($product->img));
+    }
+
+    public function show(Request $request){
+        $attributes=Attribute::find($request['id']);
+        return response()->json($attributes);
     }
 }
 
