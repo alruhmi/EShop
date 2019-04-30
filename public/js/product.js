@@ -1,40 +1,67 @@
-// show attributes
+// show attributes in create page
 $(document).ready(function() {
     $('.multi-select').multiselect();
 });
-$('#selected-btn').on('click',function () {
-    $('.attributes').html("");
+
+// select attributes
+$(document).on('change','.ui-multiselect-menu input[type=checkbox]',function(){
+
+    if ($(this).prop('checked')===true){
+        console.log('checked');
+        console.log(attributes[$(this).val()]);
+        var out='<div class="form-group" id="attr_'+$(this).val()+'">';
+        out+='<label class="control-label col-md-2">'+attributes[$(this).val()]+'</label>';
+        out+='<div class="col-md-9">';
+        var values=attr_values[$(this).val()];
+        for (var i in values) {
+            out+='<label for='+values[i]+' class="btn btn-sm btn-warning">';
+            out+='<input type="checkbox" name="attributes['+$(this).val()+'][]" value="'+values[i]+'">';
+            out+='  '+'<span>'+values[i]+'</span></label>'+' ';
+        }
+        out+='</div></div>';
+
+            $('.attributes').append(out);
+    }else{
+        $('.attributes #attr_'+$(this).val()).remove();
+    }
+
+});
+
+
+//show attributes in edit page
+$('#select-btn').on('click',function () {
+    // $('.attributes').html('');
     var selectednumbers=[] ;
     $('.multi-select :selected').each(function(i, selected) {
         selectednumbers[i] = $(selected).val();
     });
     $.ajax({
-        url:'show',
+        url:'../show',
         type:'GET',
         data:{'id':selectednumbers},
         success:function (data) {
             console.log(data);
-             for (var key in data){
-                 var out='<div class="form-group">';
-                 out+='<label class="control-label col-md-2">'+data[key].name+'</label>';
-                 out+='<div class="col-md-9">';
-                 var values=JSON.parse(data[key].value);
-                 for (var i in values) {
-                     out+='<label for='+values[i]+' class="btn btn-sm btn-warning">';
-                     out+='<input type="checkbox" name="attributes['+data.id+'][]" value="'+values[i]+'">';
-                     out+='  '+'<span>'+values[i]+'</span></label>'+' ';
-                 }
-                 out+='</div></div>';
-                 $('.attributes').append(out);
-             }
-            selectednumbers=[];
+            for (var key in data){
+                var out='<div class="form-group" id="attr_'+data[key].id+'">';
+                out+='<label class="control-label col-md-2">'+data[key].name+'</label>';
+                out+='<div class="col-md-9">';
+                var values=JSON.parse(data[key].value);
+                for (var i in values) {
+                    out+='<label for='+values[i]+' class="btn btn-sm btn-warning">';
+                    out+='<input type="checkbox" name="attributes['+data[key].id+'][]" value="'+values[i]+'">';
+                    out+='  '+'<span>'+values[i]+'</span></label>'+' ';
+                }
+                out+='</div></div>';
+                if($('.attributes #attr_'+data[key].id).length===0){
+                    $('.attributes').append(out);
+                }
 
+            }
         }
-    })
-    // console.log(selectednumbers);
+    });
 });
 
-//add product
+//add product modal
 $('.create-modal').on('click', function () {
     $('#create').modal('show');
     $('.form-horizontal').show();
@@ -296,5 +323,34 @@ $('#btn-deleteImg').on('click', function () {
             }
         });
     }
-
 });
+
+// $('#selected-btn').on('click',function () {
+//     $('.attributes').html('');
+//     var selectednumbers=[] ;
+//     $('.multi-select :selected').each(function(i, selected) {
+//         selectednumbers[i] = $(selected).val();
+//     });
+//     $.ajax({
+//         url:'show',
+//         type:'GET',
+//         data:{'id':selectednumbers},
+//         success:function (data) {
+//             console.log(data);
+//              for (var key in data){
+//                  var out='<div class="form-group">';
+//                  out+='<label class="control-label col-md-2">'+data[key].name+'</label>';
+//                  out+='<div class="col-md-9">';
+//                  var values=JSON.parse(data[key].value);
+//                  for (var i in values) {
+//                      out+='<label for='+values[i]+' class="btn btn-sm btn-warning">';
+//                      out+='<input type="checkbox" name="attributes['+data[key].id+'][]" value="'+values[i]+'">';
+//                      out+='  '+'<span>'+values[i]+'</span></label>'+' ';
+//                  }
+//                  out+='</div></div>';
+//                  $('.attributes').append(out);
+//              }
+//         }
+//     });
+//     // console.log(selectednumbers);
+// });

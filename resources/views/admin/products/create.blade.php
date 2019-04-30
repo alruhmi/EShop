@@ -81,6 +81,14 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Attributes</label>
                 <div class="col-md-4">
+                    <script type="text/javascript">
+                        var attributes=[];
+                        var attr_values=[];
+                        @foreach($attributes as $attribute)
+                            attributes[{{$attribute->id}}]="{{$attribute->name}}";
+                            attr_values[{{$attribute->id}}]={!! $attribute->value !!};
+                        @endforeach
+                    </script>
                 <select  class="multi-select form-control" multiple>
                     {{--<option  disabled selected>Choose attributes</option>--}}
                     @foreach($attributes as $attribute)
@@ -88,7 +96,6 @@
                         @endforeach
                 </select>
                 </div>
-                <button type="button" class="btn btn-sm btn-success" id="selected-btn">save</button>
             </div>
 
             <div class="attributes">

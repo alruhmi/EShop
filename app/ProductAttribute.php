@@ -8,6 +8,7 @@ use App\Attribute;
 
 class ProductAttribute extends Model
 {
+    protected $primaryKey = "id";
     public  function product(){
          return $this->belongsTo(Product::class);
     }

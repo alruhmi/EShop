@@ -42,7 +42,6 @@ function selectCategory() {
         $('#category_btn').addClass('btn-warning');
         $('#category_btn').text('Update Category');
         $('.delete_btn').show();
-        $('.image-section').show();
         $.ajax({
             type: 'GET',
             url: 'selectCategory',
@@ -59,6 +58,7 @@ function selectCategory() {
                 if(data.img!=null){
                     var out="<img src='/images/categories/"+data.img+"'>";
                     $('.image-section').html(out);
+                    $('.image-section').show();
                 }else{
                     $('.image-section').hide();
                 }

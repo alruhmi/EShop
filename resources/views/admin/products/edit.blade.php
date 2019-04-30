@@ -80,8 +80,36 @@
                                     <input type="file" name="images[]" id="select-img" class="btn-info" multiple>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Attributes</label>
+                                <div class="col-md-4">
+                                    <script type="text/javascript" >
+                                        var attributes=[];
+                                        var attr_values=[];
+                                        @foreach($allAttributes as $attribute)
+                                            attributes[{{$attribute->id}}]="{{$attribute->name}}";
+                                        @endforeach
+
+                                    </script>
+                                    <select  class="multi-select form-control" multiple>
+                                        @foreach($allAttributes as $attribute)
+                                            <option onchange="fillAttributes()"  value="{{$attribute->id}}" @if (in_array($attribute,$attrs))
+                                                selected
+                                            @endif>{{$attribute->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-success" id="select-btn">save</button>
+                            </div>
+                            <div class="attributes">
+                                @foreach ($allAttributes_values as $value)
+                                    <script type="text/javascript">
+                                        attr_values[{{$value->id}}]={!!$value->value!!} ;
+                                    </script>
+                                @endforeach
                             @foreach($attrs as $attribute)
-                                <div class="form-group">
+
+                                <div class="form-group" id="attr_{{$attribute->id}}">
                                     <label class="control-label col-md-2">{{$attribute->name}}</label>
                                     <div class="col-md-9">
                                         @php( $values=json_decode($attribute->value))
@@ -97,20 +125,8 @@
                                     </div>
                                 </div>
                             @endforeach
-                            {{--@foreach($attrs as $key => $attribute)--}}
-                                {{--<div class="form-group">--}}
-                                    {{--<label class="control-label col-md-2">{{$attribute}}</label>--}}
-                                    {{--<div class="col-md-9">--}}
-                                        {{--@php( $values=$attributes[$key])--}}
-                                        {{--@foreach($values as $value)--}}
-                                            {{--<label for="{{$value}}" class="btn btn-sm btn-warning">--}}
-                                                {{--<input type="checkbox" name="attributes[{{$key}}][]" value="{{$value}}">--}}
-                                                {{--<span>{{$value}}</span>--}}
-                                            {{--</label>--}}
-                                        {{--@endforeach--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--@endforeach--}}
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-6">
                                     <button type="submit" class="btn btn-primary">
@@ -124,4 +140,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('title')
+    PM | Product Management
+@endsection
+@section('controller-css')
+    <link rel="stylesheet" href="{{asset('css/products.css')}}">
+@endsection
+@section('controller-js')
+    <script src="{{ asset("js/product.js") }}" type="text/javascript" ></script>
 @endsection

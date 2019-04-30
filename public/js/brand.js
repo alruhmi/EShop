@@ -55,7 +55,6 @@ function selectBrand() {
         $('#brand_btn').addClass('btn-warning');
         $('#brand_btn').text('Update brand');
         $('.delete_btn').show();
-        $('.image-section').show();
         $.ajax({
             type: 'GET',
             url: 'selectBrand',
@@ -71,6 +70,7 @@ function selectBrand() {
                 if(data.img!=null){
                     var out="<img src='/images/brands/"+data.img+"'>";
                     $('.image-section').html(out);
+                    $('.image-section').show();
                 }else{
                     $('.image-section').hide();
                 }

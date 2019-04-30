@@ -136,28 +136,29 @@ $(document).on('change','#active-news',function () {
 //change position in real time
 $("tbody").sortable({
     stop: function() {
+        var position=[];
         $(this).find('tr').each(function(i) {
             // $('this #pos').val($(this).index());
             $(this).find('input#pos').val(i+1);
-            var position=[];
+
              position['position']=$(this).find('input#pos').val();
             position['id']=$(this).find('input#pos').attr('news_id');
             console.log(position);
-            $.ajax({
-                url:'changePosition',
-                type:'post',
-                data:{
-                    'position':position['position'],
-                    'id':position['id'],
-                    '_token':$('input[name=_token]').val()
-                },success:function (data) {
-                    console.log(data);
-                    $('.news'+data.id).replaceWith(fillData(data));
-                    $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
-                }
-            })
+            // $.ajax({
+            //     url:'changePosition',
+            //     type:'post',
+            //     data:{
+            //         'position':position['position'],
+            //         'id':position['id'],
+            //         '_token':$('input[name=_token]').val()
+            //     },success:function (data) {
+            //         console.log(data);
+            //         $('.news'+data.id).replaceWith(fillData(data));
+            //         $('input[type=checkbox][data-toggle^=toggle]').bootstrapToggle();
+            //     }
+            // });
         });
-
+      console.log(position);
     }
 }).disableSelection();
 

@@ -58,35 +58,68 @@ class AdminProductController extends Controller
         $brands=brand::all();
         $brand=brand::find($product->brand_id);
         $categories=category::all();
-        $attrs=Attribute::all();
         $category=category::find($product->category_id);
+        $allAttributes=Attribute::all();
         $attributes=array();
+        $attrs=array();
+        $allAttributes_values=array();
+        foreach ($allAttributes as $value){
+            $allAttributes_values[$value->id]=Attribute::find($value->id);
+        }
         foreach ($product->productAttributes as $productAttribute){
-//            $productAttribute->load('attribute');
-//            var_dump($productAttribute->attribute);
             if (!isset($attributes[$productAttribute->attribute->id])){
                 $attributes[$productAttribute->attribute->id]=array();
             }
-            $attributes[$productAttribute->attribute->id][]=$productAttribute->value;
+            $attributes[$productAttribute->attribute->id][$productAttribute->id]=$productAttribute->value;
 //            $attrs[$productAttribute->attribute->id]=$productAttribute->attribute->name;
+            $attrs[$productAttribute->attribute->id]=Attribute::find($productAttribute->attribute->id);
 
         }
-        return view('products.edit',['product'=>$product,'brands'=>$brands, 'categories'=>$categories,
-            'selected_brand'=>$brand, 'selected_category'=>$category,'attributes'=>$attributes,'attrs'=>$attrs]);
+        return view('products.edit', [
+                'product' => $product,
+                'brands' => $brands,
+                'categories' => $categories,
+                'selected_brand' => $brand,
+                'selected_category' => $category,
+                'attributes' => $attributes,
+                'attrs' => $attrs,
+                'allAttributes' => $allAttributes,
+            'allAttributes_values'=>$allAttributes_values]);
     }
 
     public function update(Request $request,$id)
     {
         $product=Product::find($id);
         $product->name=$request['name'];
-        $product->title=$request['title'];
-        $product->slug=$request['slug'];
+        $product->title=title_case($request['title']);
+        $product->slug=str_slug($request['slug'],'-');
         $product->price=$request['price'];
         $product->details=$request['details'];
         $product->description=$request['description'];
         $product->brand_id=$request['brand'];
         $product->category_id=$request['category'];
         $product->save();
+        $existed_ids=array();
+        foreach ($request['attributes'] as $key=>$values ){
+            $attribute_id=$key;
+            foreach ($values as $value){
+                $attribute=DB::table('product_attributes')->where('product_id',$id)->where('attribute_id',$attribute_id)
+                    ->where('value',$value)->first();
+                if ($attribute==null){
+                    $attribute=new ProductAttribute();
+                    $attribute->attribute_id=$attribute_id;
+                    $attribute->value=$value;
+                    $attribute->product_id=$id;
+                    $attribute->save();
+                }
+                $existed_ids[]=$attribute->id;
+
+            }
+        }
+        if (!empty($existed_ids)){
+            $attributes=DB::table('product_attributes')->where('product_id',$id)->whereNotIn('id',$existed_ids);
+            $attributes->delete();
+        }
 
         return redirect()->intended('admin/product');
     }
@@ -94,14 +127,14 @@ class AdminProductController extends Controller
     public function addProduct(Request $request)
     {
         $product = new  Product();
-        $product->name = $_POST['name'];
-        $product->title = $_POST['title'];
-        $product->slug = $_POST['slug'];
-        $product->price = $_POST['price'];
-        $product->details = $_POST['details'];
-        $product->brand_id = $_POST['brand'];
-        $product->category_id = $_POST['category'];
-        $product->description = $_POST['description'];
+        $product->name = $request['name'];
+        $product->title = title_case($request['title']);
+        $product->slug = str_slug($request['slug'],'-');
+        $product->price = $request['price'];
+        $product->details = $request['details'];
+        $product->brand_id = $request['brand'];
+        $product->category_id = $request['category'];
+        $product->description = $request['description'];
 
         $images = $request->file('images');
         if ($images != null) {
@@ -147,10 +180,6 @@ class AdminProductController extends Controller
         return redirect()->route('product.index');
     }
 
-    public function showAttributes(Request $request){
-        $attributes=Attribute::find($request['id']);
-        return response()->json($attributes);
-    }
 
     public function showProduct(Request $request){
         $id=$request['id'];
@@ -204,7 +233,8 @@ class AdminProductController extends Controller
             }
         }
         $product->delete();
-        return response()->json();
+        $productAttribute=DB::table('product_attributes')->where('product_id','=',$request['id'])->delete();
+        return response()->json(['message'=>'This product deleted successfully']);
     }
 
     //add new pictures to product images
@@ -266,5 +296,6 @@ class AdminProductController extends Controller
         $attributes=Attribute::find($request['id']);
         return response()->json($attributes);
     }
+
 }
 
