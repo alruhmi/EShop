@@ -51,6 +51,7 @@
             <li><a href="{{ url('admin\countries') }}"><i class="fa fa-globe"></i><span>Countries</span></a></li>
             <li><a href="{{ url('admin\state') }}"><i class="far fa-flag"></i><span> States</span></a></li>
             <li><a href="{{ url('admin\city') }}"><i class="fas fa-city"></i><span> City</span></a></li>
+            <li><a href="{{ url('admin\slides') }}"><i class="fas fa-image"></i><span> Slides</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>

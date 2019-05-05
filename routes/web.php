@@ -86,5 +86,11 @@ Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('getAttributes','AdminAttributeController@getAttributes');
     Route::POST('editAttribute','AdminAttributeController@editAttribute');
     Route::POST('deleteAttribute','AdminAttributeController@deleteAttribute');
+
+    Route::GET('slides','AdminSlideController@index');
+    Route::POST('addSlide','AdminSlideController@addSlide');
+    Route::POST('deleteSlide','AdminSlideController@deleteSlide');
+    Route::get('editSlide','AdminSlideController@editSlide');
+    Route::POST('updateSlide','AdminSlideController@updateSlide');
 });
 

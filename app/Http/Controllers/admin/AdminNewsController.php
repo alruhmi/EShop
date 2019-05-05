@@ -116,6 +116,9 @@ class AdminNewsController extends Controller
 
     public function deleteNews(Request $request){
         $news=News::find($request['id']);
+        if($news->img!=null && file_exists(public_path().'/images/slides/'.$news->img)){
+            unlink(public_path().'/images/slides/'.$news->img);
+        }
         $news->delete();
         return response()->json(['message'=>'This post deleted successfully']);
     }

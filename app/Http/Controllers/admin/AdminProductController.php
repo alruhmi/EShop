@@ -139,7 +139,17 @@ class AdminProductController extends Controller
         $images = $request->file('images');
         if ($images != null) {
             foreach ($images as $image){
-                $name_image = time() . "_" . $image->getClientOriginalName();
+                $name_image = time() . "_" ;
+                if(isset($request['attributes']) && !empty($request['attributes'])){
+                    foreach ($request['attributes'] as $values){
+                        foreach ($values as $value){
+                            $name_image .= $value."_";
+                        }
+                    }
+                    $name_image .= $image->getClientOriginalName();
+                }else{
+                    $name_image .= $image->getClientOriginalName();
+                }
                 $ext = $image->getClientOriginalExtension();
                 $size = $image->getClientSize();
                 $valid_extensions = array("jpeg", "jpg", "png");
@@ -152,18 +162,6 @@ class AdminProductController extends Controller
 
         }
 
-//        if (!empty($_FILES['image']['name']) && !empty($_FILES['image']['type'])) {
-//            $fileName = time() . "_" . $_FILES['image']['name'];
-//            $valid_extensions = array("jpeg", "jpg", "png");
-//            $ext = $request->file('image')->getClientOriginalExtension();
-//            if (in_array($ext, $valid_extensions)) {
-//                $sourcePath = $_FILES['image']['tmp_name'];
-//                $targetPath = public_path() . "/images/products/" . $fileName;
-//                if (move_uploaded_file($sourcePath, $targetPath)) {
-//                    $product->img = $fileName;
-//                }
-//            }
-//        }
         $product->save();
 
         foreach ($request['attributes'] as $key=>$values ){
